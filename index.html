@@ -2,776 +2,1499 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>FitLink Global — Affiliate Onboarding</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --green: #344b48;
-    --gold: #dac39b;
-    --gray: #575250;
-    --light-gold: #f0e6d3;
-    --cream: #faf7f2;
-    --dark: #1a2422;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; }
-  body { font-family: 'Lato', sans-serif; background: var(--cream); display: flex; flex-direction: column; }
+:root {
+  --g: #2a3d3a;
+  --g2: #1c2b28;
+  --gold: #c9a96e;
+  --gold2: #e8d4a8;
+  --cream: #f7f3ec;
+  --sand: #ede7db;
+  --gray: #5a5552;
+  --muted: #8a857f;
+  --white: #ffffff;
+  --dark: #141e1c;
+  --red: #c0392b;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(20,30,28,.10);
+  --shadow-lg: 0 12px 48px rgba(20,30,28,.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  height: 100%; display: flex; flex-direction: column;
+  overflow: hidden; color: var(--dark);
+}
+/* ── ANIMATIONS ── */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+@keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+@keyframes shimmer  { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes slideUp  { from{transform:translateY(100%)} to{transform:translateY(0)} }
+@keyframes spin     { to{transform:rotate(360deg)} }
+@keyframes floatDot { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.fade-up  { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) forwards; }
+.fade-in  { animation: fadeIn .4s ease forwards; }
+.gold-shimmer {
+  background: linear-gradient(90deg,#c9a96e,#f0ddb0,#c9a96e,#e8d4a8);
+  background-size: 300% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position:  200% center; }
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+/* ── TOPNAV ── */
+#topnav {
+  background: var(--g2);
+  padding: 0 20px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(201,169,110,.15);
+  flex-shrink: 0; z-index: 200; gap: 12px;
+  position: relative;
+}
+#topnav::after {
+  content:''; position:absolute; bottom:-1px; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo {
+  width:32px; height:32px; border-radius:8px;
+  background: linear-gradient(135deg, var(--g) 0%, var(--gold) 100%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:var(--white);
+  font-family:'Space Mono',monospace; letter-spacing:-.02em;
+  flex-shrink:0;
+}
+.brand-text { display:flex; flex-direction:column; }
+.brand-name { font-family:'Space Mono',monospace; font-size:11px; color:var(--gold); letter-spacing:.12em; line-height:1; }
+.brand-sub  { font-size:9px; color:rgba(201,169,110,.5); letter-spacing:.1em; margin-top:2px; }
+.nav-right { display:flex; align-items:center; gap:10px; }
+/* lang switcher */
+#lang-sw {
+  display:flex; background:rgba(255,255,255,.07); border-radius:99px;
+  padding:2px; gap:2px;
+}
+.lang-btn {
+  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.06em;
+  padding:4px 9px; border-radius:99px; border:none; cursor:pointer;
+  color:rgba(201,169,110,.5); background:transparent; transition:all .2s;
+}
+.lang-btn.active { background:var(--gold); color:var(--dark); }
+/* nav progress */
+#nav-progress { display:flex; gap:4px; align-items:center; }
+.np { width:18px; height:2px; border-radius:99px; background:rgba(201,169,110,.2); cursor:pointer; transition:all .3s; }
+.np.active { width:28px; background:var(--gold); }
 
-  .fade-up { animation: fadeUp .45s ease forwards; }
-  .gold-shimmer {
-    background: linear-gradient(90deg, #dac39b, #f5e8cc, #dac39b);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 3s linear infinite;
-  }
+/* ── SCROLL AREA ── */
+#scroll { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+#scroll::-webkit-scrollbar { display:none; }
 
-  /* ── TOP NAV ── */
-  #topnav {
-    background: var(--green);
-    padding: 10px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 2px solid rgba(218,195,155,.2);
-    flex-shrink: 0; z-index: 100;
-    gap: 10px;
-  }
-  .nav-brand { display: flex; align-items: center; gap: 8px; }
-  .nav-dot   { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink:0; }
-  .nav-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gold); letter-spacing: .15em; }
-  .nav-sub   { font-size: 9px; color: rgba(218,195,155,.4); margin-left: 4px; display:none; }
-  @media(min-width:420px){ .nav-sub { display:inline; } }
+/* ── BOTTOM NAV ── */
+#botnav {
+  background:var(--white); border-top:1px solid rgba(42,61,58,.08);
+  padding:10px 20px; display:flex; justify-content:space-between; align-items:center;
+  flex-shrink:0; gap:16px;
+}
+.nav-btn {
+  background:var(--g); border:1.5px solid var(--gold);
+  color:var(--gold); padding:9px 22px; border-radius:99px;
+  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.08em;
+  cursor:pointer; transition:all .2s; -webkit-appearance:none;
+  min-width:110px; text-align:center;
+}
+.nav-btn:disabled { background:transparent; border-color:rgba(42,61,58,.15); color:rgba(42,61,58,.3); cursor:default; }
+.nav-btn:not(:disabled):active { transform:scale(.96); background:var(--gold); color:var(--dark); }
+#sec-info { text-align:center; flex:1; }
+.sec-num  { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:.15em; }
+.sec-name { font-size:11px; font-weight:600; color:var(--g); margin-top:1px; }
 
-  /* progress dots in topnav */
-  #nav-dots { display: flex; gap: 5px; align-items: center; }
-  .ndot {
-    height: 3px; border-radius: 99px;
-    background: rgba(218,195,155,.25);
-    transition: all .3s ease; cursor: pointer;
-    width: 20px;
-  }
-  .ndot.active { background: var(--gold); width: 32px; }
+/* ── SHARED LAYOUT ── */
+.page { padding:40px 20px 80px; max-width:720px; margin:0 auto; }
+.tag {
+  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.22em;
+  color:var(--gold); margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+.tag::before { content:''; display:inline-block; width:20px; height:1px; background:var(--gold); }
+h1.title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(34px,7vw,58px); font-weight:700;
+  color:var(--g); line-height:1.1; margin-bottom:20px;
+}
+.subtitle { font-size:14px; line-height:1.8; color:var(--gray); max-width:500px; }
+.divider { width:48px; height:2px; background:var(--gold); border-radius:99px; margin:24px 0; }
+.chip {
+  display:inline-block; font-size:10px; font-weight:600;
+  padding:4px 12px; border-radius:99px;
+  background:rgba(42,61,58,.07); color:var(--g);
+  border:1px solid rgba(42,61,58,.12);
+}
+.badge {
+  display:inline-block; font-family:'Space Mono',monospace;
+  font-size:8px; letter-spacing:.1em; font-weight:700;
+  padding:3px 9px; border-radius:99px;
+  background:var(--gold); color:var(--dark);
+}
+.dark-box {
+  background:var(--g2); border-radius:var(--radius);
+  padding:28px 24px; position:relative; overflow:hidden;
+}
+.dark-box::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
 
-  /* ── SCROLL AREA ── */
-  #scroll-area {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-  #scroll-area::-webkit-scrollbar { display: none; }
+/* ── S0 WELCOME ── */
+.welcome-hero {
+  min-height:calc(100dvh - 120px);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:40px 20px 60px; max-width:720px; margin:0 auto; text-align:center;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(201,169,110,.12); border:1px solid rgba(201,169,110,.3);
+  border-radius:99px; padding:6px 16px; margin-bottom:28px;
+  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.14em; color:var(--gold);
+}
+.hero-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:floatDot 2s ease-in-out infinite; }
+.stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:32px auto; max-width:400px; }
+.stat { background:var(--white); border:1px solid rgba(42,61,58,.1); border-radius:var(--radius); padding:20px 12px; box-shadow:var(--shadow); }
+.stat-n { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:700; color:var(--g); line-height:1; }
+.stat-l { font-size:10px; color:var(--muted); margin-top:4px; font-weight:500; letter-spacing:.05em; }
+.pill-row { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:20px 0; }
+.pill { background:var(--g); color:var(--gold2); border-radius:99px; padding:7px 16px; font-size:11px; font-weight:500; }
+.scroll-hint { font-size:11px; color:var(--muted); margin-top:32px; animation:fadeIn 1s 1.5s both; display:flex; align-items:center; justify-content:center; gap:6px; }
 
-  /* ── BOTTOM NAV ── */
-  #botnav {
-    background: #fff;
-    border-top: 1px solid rgba(52,75,72,.1);
-    padding: 12px 20px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-shrink: 0;
-  }
-  .nav-btn {
-    background: var(--green); border: 1.5px solid var(--gold);
-    color: var(--gold); padding: 9px 20px; border-radius: 99px;
-    font-family: 'Space Mono', monospace; font-size: 10px;
-    letter-spacing: .08em; cursor: pointer; transition: all .2s;
-    -webkit-appearance: none;
-  }
-  .nav-btn:disabled {
-    background: transparent;
-    border-color: rgba(52,75,72,.2);
-    color: rgba(52,75,72,.3);
-    cursor: default;
-  }
-  .nav-btn:not(:disabled):active { transform: scale(.96); }
+/* ── S1 STORY ── */
+.tl-wrap { position:relative; padding-left:32px; margin-top:32px; }
+.tl-wrap::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,transparent,var(--gold) 15%,var(--gold) 85%,transparent); }
+.tl-item { position:relative; margin-bottom:36px; }
+.tl-dot { position:absolute; left:-27px; top:4px; width:14px; height:14px; border-radius:50%; background:var(--gold); border:3px solid var(--cream); z-index:1; }
+.tl-year { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.18em; margin-bottom:6px; }
+.tl-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--g); margin-bottom:8px; }
+.tl-body { font-size:13px; line-height:1.8; color:var(--gray); }
+.quote-card {
+  background:var(--g2); border-radius:var(--radius); padding:32px 28px;
+  margin-top:36px; text-align:center; position:relative; overflow:hidden;
+}
+.quote-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:clamp(17px,3.5vw,22px); color:var(--gold2); font-style:italic; line-height:1.6; margin-bottom:16px; }
+.quote-author { font-family:'Space Mono',monospace; font-size:9px; color:rgba(201,169,110,.5); letter-spacing:.12em; }
 
-  /* section label */
-  #section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px; color: var(--gray);
-    letter-spacing: .1em; text-align: center;
-  }
+/* ── S2 PARTNERS ── */
+.cat-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
+.cat-btn {
+  display:flex; align-items:center; gap:6px;
+  background:var(--white); border:1.5px solid rgba(42,61,58,.12);
+  color:var(--g); border-radius:99px; padding:8px 18px;
+  font-size:11px; font-weight:600; cursor:pointer; transition:all .22s;
+  -webkit-appearance:none; box-shadow:var(--shadow);
+}
+.cat-btn.active { background:var(--g); border-color:var(--gold); color:var(--gold); box-shadow:0 4px 16px rgba(42,61,58,.22); }
+.cat-btn:active { transform:scale(.96); }
+.cat-count { font-family:'Space Mono',monospace; font-size:9px; opacity:.55; }
+.p-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:12px; }
+.p-card {
+  background:var(--white); border:1.5px solid rgba(42,61,58,.08);
+  border-radius:var(--radius); padding:18px 16px; cursor:pointer;
+  transition:all .25s cubic-bezier(.22,1,.36,1);
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.p-card::after { content:''; position:absolute; inset:0; background:var(--g); opacity:0; transition:opacity .25s; border-radius:var(--radius); }
+.p-card:active::after { opacity:1; }
+.p-card:active .p-name,.p-card:active .p-tagline { color:var(--gold) !important; position:relative; z-index:1; }
+.p-emoji { font-size:26px; margin-bottom:10px; }
+.p-tag-chip { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.08em; color:var(--gold); background:rgba(201,169,110,.12); padding:2px 8px; border-radius:99px; margin-bottom:8px; display:inline-block; }
+.p-name { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:700; color:var(--g); margin-bottom:4px; line-height:1.2; }
+.p-tagline { font-size:11px; color:var(--muted); line-height:1.5; }
+.p-arrow { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:16px; color:var(--sand); }
+.p-note { margin-top:28px; background:rgba(42,61,58,.04); border-radius:var(--radius); padding:16px 20px; border:1px dashed rgba(42,61,58,.18); font-size:12px; color:var(--muted); text-align:center; }
 
-  /* ── SHARED ── */
-  .section { padding: 40px 20px 60px; max-width: 700px; margin: 0 auto; }
-  .section-tag {
-    font-family: 'Space Mono', monospace; font-size: 10px;
-    color: var(--gold); letter-spacing: .25em; margin-bottom: 14px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px,6vw,46px); font-weight: 900;
-    color: var(--green); line-height: 1.2; margin-bottom: 20px;
-  }
-  .section-body {
-    font-size: 14px; color: var(--gray); line-height: 1.8;
-  }
-  .badge {
-    font-size: 9px; font-weight: 700; letter-spacing: .12em;
-    padding: 3px 9px; border-radius: 99px;
-    background: var(--gold); color: var(--dark);
-    font-family: 'Space Mono', monospace; display: inline-block;
-  }
-  .dark-card {
-    background: var(--green); border-radius: 18px;
-    padding: 28px 24px; margin-top: 24px;
-  }
-  .dark-card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(16px,3vw,22px);
-    color: var(--gold); font-weight: 700; font-style: italic;
-    line-height: 1.5; margin-bottom: 14px;
-  }
+/* ── PARTNER MODAL ── */
+#modal-bg {
+  position:fixed; inset:0; background:rgba(20,30,28,.88);
+  z-index:1000; display:none; flex-direction:column; justify-content:flex-end;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+#modal-bg.open { display:flex; }
+#modal-sheet {
+  background:var(--white); border-radius:28px 28px 0 0;
+  max-height:91dvh; overflow-y:auto; overflow-x:hidden;
+  animation:slideUp .35s cubic-bezier(.22,1,.36,1);
+}
+#modal-sheet::-webkit-scrollbar { display:none; }
+.modal-handle { width:36px; height:4px; background:rgba(42,61,58,.12); border-radius:99px; margin:14px auto 0; }
+.modal-hero {
+  background:var(--g2); padding:28px 24px 24px;
+  position:relative; overflow:hidden;
+}
+.modal-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.modal-emoji-big { font-size:42px; margin-bottom:12px; }
+.modal-partner-name { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--gold2); line-height:1.1; }
+.modal-partner-tag  { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.14em; margin-top:6px; }
+.modal-close { position:absolute; top:18px; right:18px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.12); border:none; color:rgba(201,169,110,.8); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.modal-body { padding:24px 24px 48px; }
+.modal-section { margin-bottom:24px; }
+.modal-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.18em; color:var(--gold); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.modal-label::after { content:''; flex:1; height:1px; background:rgba(201,169,110,.2); }
+.modal-desc { font-size:13px; line-height:1.8; color:var(--gray); }
+.chip-row { display:flex; flex-wrap:wrap; gap:8px; }
+.ideal-chip { font-size:11px; background:rgba(42,61,58,.06); color:var(--g); border-radius:99px; padding:5px 14px; border:1px solid rgba(42,61,58,.1); font-weight:500; }
+.pitch-box {
+  background:var(--g2); border-radius:12px; padding:18px;
+  border-left:3px solid var(--gold); position:relative;
+}
+.pitch-quote { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--gold2); line-height:1.65; font-style:italic; }
+/* products inside modal */
+.prod-grid { display:flex; flex-direction:column; gap:10px; }
+.prod-item {
+  background:var(--cream); border-radius:12px; padding:14px 16px;
+  border:1px solid rgba(42,61,58,.08); display:flex; align-items:flex-start; gap:12px;
+}
+.prod-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+.prod-name { font-size:13px; font-weight:700; color:var(--g); margin-bottom:3px; }
+.prod-desc { font-size:11px; color:var(--muted); line-height:1.6; }
+/* objection block */
+.obj-box { background:rgba(192,57,43,.06); border-radius:12px; padding:16px; border-left:3px solid rgba(192,57,43,.4); margin-bottom:10px; }
+.obj-q { font-size:12px; color:var(--red); font-weight:600; margin-bottom:6px; }
+.obj-a { font-size:12px; color:var(--gray); line-height:1.7; }
+/* combo suggestion */
+.combo-box { background:rgba(201,169,110,.1); border-radius:12px; padding:14px 16px; border:1px solid rgba(201,169,110,.25); }
+.combo-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.12em; margin-bottom:8px; }
+.combo-text { font-size:12px; color:var(--g); line-height:1.6; font-weight:500; }
+/* swipe hint in modal */
+.swipe-hint { text-align:center; font-size:11px; color:var(--muted); margin-top:24px; padding-top:16px; border-top:1px solid rgba(42,61,58,.08); }
 
-  /* ── WELCOME ── */
-  #s0 { text-align: center; padding-top: 32px; }
-  .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; max-width: 360px; margin: 24px auto 0; }
-  .stat-box {
-    background: rgba(52,75,72,.05);
-    border: 1.5px solid rgba(52,75,72,.12);
-    border-radius: 14px; padding: 16px 10px; text-align: center;
-  }
-  .stat-n { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--green); }
-  .stat-l { font-size: 10px; color: var(--gray); font-family: 'Space Mono', monospace; letter-spacing: .1em; }
-  .pill-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 24px 0; }
-  .pill {
-    background: var(--green); color: var(--gold);
-    border-radius: 99px; padding: 7px 16px;
-    font-size: 11px; font-family: 'Space Mono', monospace;
-  }
+/* ── S3 STRATEGIES ── */
+.strat-list { display:flex; flex-direction:column; gap:10px; margin-top:28px; }
+.strat-card { background:var(--white); border:1.5px solid rgba(42,61,58,.1); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+.strat-head {
+  padding:16px 20px; cursor:pointer; display:flex;
+  justify-content:space-between; align-items:center;
+  -webkit-user-select:none; user-select:none;
+}
+.strat-head:active { background:rgba(42,61,58,.04); }
+.strat-left { display:flex; align-items:center; gap:14px; }
+.strat-ico { font-size:28px; flex-shrink:0; }
+.strat-ttl { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700; color:var(--g); }
+.strat-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.strat-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.strat-arrow { font-size:18px; color:var(--g); transition:transform .25s; }
+.strat-body { display:none; padding:0 20px 22px; border-top:1px solid rgba(42,61,58,.07); }
+.strat-desc { font-size:13px; line-height:1.8; color:var(--gray); margin:14px 0; }
+.step { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+.step-n { min-width:24px; height:24px; border-radius:50%; background:var(--g); color:var(--gold); font-size:10px; font-weight:700; font-family:'Space Mono',monospace; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step-t { font-size:13px; color:var(--dark); line-height:1.65; padding-top:3px; }
+.ex-box { background:var(--g); border-radius:12px; padding:14px 16px; margin-top:14px; }
+.ex-lbl { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.1em; margin-bottom:4px; }
+.ex-txt { font-size:12px; color:var(--gold2); line-height:1.6; }
 
-  /* ── STORY ── */
-  .timeline-line {
-    position: relative; padding-left: 28px;
-  }
-  .timeline-line::before {
-    content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
-    width: 2px;
-    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-  }
-  .tl-item { position: relative; margin-bottom: 32px; }
-  .tl-dot {
-    position: absolute; left: -24px; top: 5px;
-    width: 14px; height: 14px; border-radius: 50%;
-    background: var(--gold); border: 3px solid var(--cream);
-    z-index: 1;
-  }
-  .tl-year {
-    font-family: 'Space Mono', monospace; font-size: 10px;
-    color: var(--gold); letter-spacing: .15em; margin-bottom: 6px;
-  }
-  .tl-title {
-    font-family: 'Playfair Display', serif; font-size: 18px;
-    font-weight: 700; color: var(--green); margin-bottom: 8px;
-  }
+/* ── S4 ROADMAP ── */
+.rm-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:28px 0; }
+.rm-tab {
+  background:var(--white); border:1.5px solid rgba(42,61,58,.12);
+  color:var(--g); border-radius:99px; padding:8px 16px;
+  font-size:11px; font-weight:600; cursor:pointer; transition:all .2s;
+  -webkit-appearance:none; box-shadow:var(--shadow);
+}
+.rm-tab.active { background:var(--g); border-color:var(--gold); color:var(--gold); }
+.rm-card { background:var(--g2); border-radius:var(--radius); padding:36px 28px; text-align:center; min-height:190px; position:relative; overflow:hidden; }
+.rm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.rm-ico  { font-size:46px; margin-bottom:14px; }
+.rm-day  { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.22em; margin-bottom:10px; }
+.rm-ttl  { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:700; color:var(--gold2); margin-bottom:12px; }
+.rm-dsc  { font-size:13px; color:rgba(201,169,110,.75); line-height:1.8; max-width:400px; margin:0 auto; }
+.princ-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:32px; }
+.princ { background:var(--white); border-radius:var(--radius); padding:18px; border:1px solid rgba(42,61,58,.08); box-shadow:var(--shadow); }
+.princ-ico  { font-size:26px; margin-bottom:8px; }
+.princ-ttl  { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:700; color:var(--g); margin-bottom:4px; }
+.princ-dsc  { font-size:11px; color:var(--muted); line-height:1.65; }
 
-  /* ── PORTFOLIO ── */
-  .cat-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-  .cat-tab {
-    background: rgba(52,75,72,.06);
-    border: 1.5px solid rgba(52,75,72,.2);
-    color: var(--green); border-radius: 99px;
-    padding: 8px 16px; font-family: 'Space Mono', monospace;
-    font-size: 10px; letter-spacing: .08em; cursor: pointer;
-    transition: all .2s; -webkit-appearance: none;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .cat-tab.active {
-    background: var(--green); border-color: var(--gold); color: var(--gold);
-  }
-  .partner-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
-  }
-  .partner-card {
-    background: rgba(52,75,72,.06);
-    border: 1.5px solid rgba(52,75,72,.15);
-    border-radius: 14px; padding: 14px;
-    cursor: pointer; transition: all .22s;
-  }
-  .partner-card:active {
-    background: var(--green);
-    border-color: var(--gold);
-    transform: scale(.97);
-  }
-  .p-emoji { font-size: 22px; margin-bottom: 8px; }
-  .p-name  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
-  .p-tag-line { font-size: 10px; color: var(--gray); line-height: 1.5; }
+/* ── S5 MANIFESTO ── */
+.manifesto-hero { text-align:center; }
+.m-lines { max-width:500px; margin:32px auto; text-align:left; }
+.m-line { display:flex; gap:14px; align-items:flex-start; margin-bottom:16px; opacity:0; }
+.m-line.show { animation:fadeUp .5s ease forwards; }
+.m-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); margin-top:7px; flex-shrink:0; }
+.m-txt  { font-size:14px; line-height:1.8; color:var(--gray); }
+.market-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:24px; }
+.mkt-item { border-top:2px solid var(--gold); padding-top:12px; }
+.mkt-n { font-family:'Space Mono',monospace; font-size:13px; color:var(--gold); font-weight:700; }
+.mkt-l { font-size:10px; color:rgba(201,169,110,.6); margin-top:3px; }
+.final-cta { background:var(--g2); border-radius:var(--radius); padding:28px 24px; margin-top:24px; border:2px solid rgba(201,169,110,.3); position:relative; overflow:hidden; text-align:center; }
+.final-cta::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.final-tag { font-family:'Space Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:.2em; margin-bottom:14px; }
+.final-ttl { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--white); margin-bottom:10px; }
+.final-dsc { font-size:12px; color:rgba(201,169,110,.65); line-height:1.75; margin-bottom:20px; }
+.final-pills { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.final-pill { background:rgba(201,169,110,.12); border-radius:10px; padding:8px 14px; font-size:11px; color:var(--gold); font-family:'Space Mono',monospace; letter-spacing:.05em; }
 
-  /* ── MODAL ── */
-  #modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(26,36,34,.88);
-    display: none; align-items: flex-end; justify-content: center;
-    z-index: 999;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  #modal-overlay.open { display: flex; }
-  #modal-box {
-    background: var(--green);
-    border-radius: 24px 24px 0 0;
-    padding: 28px 24px 40px;
-    width: 100%; max-width: 600px;
-    border: 1.5px solid var(--gold);
-    border-bottom: none;
-    max-height: 88vh; overflow-y: auto;
-    animation: fadeUp .3s ease;
-  }
-  #modal-box::-webkit-scrollbar { display: none; }
-  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-  .modal-close {
-    background: rgba(255,255,255,.12); border: none;
-    color: var(--light-gold); border-radius: 50%;
-    width: 32px; height: 32px; font-size: 16px;
-    cursor: pointer; flex-shrink: 0; -webkit-appearance: none;
-  }
-  .modal-name { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); font-weight: 700; }
-  .modal-desc { color: var(--light-gold); font-size: 13px; line-height: 1.75; margin-bottom: 18px; }
-  .modal-section-label {
-    font-family: 'Space Mono', monospace; font-size: 9px;
-    color: var(--gold); letter-spacing: .12em; margin-bottom: 10px;
-  }
-  .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-  .tag-chip {
-    font-size: 11px; background: rgba(218,195,155,.15);
-    color: var(--light-gold); border-radius: 99px; padding: 4px 12px;
-  }
-  .pitch-box {
-    background: rgba(218,195,155,.1);
-    border-radius: 12px; padding: 14px;
-    border-left: 3px solid var(--gold);
-  }
-  .pitch-text { color: var(--cream); font-size: 13px; line-height: 1.65; font-style: italic; }
-
-  /* ── STRATEGIES ── */
-  .strat-card {
-    background: rgba(52,75,72,.05);
-    border: 1.5px solid rgba(52,75,72,.15);
-    border-radius: 16px; overflow: hidden; margin-bottom: 12px;
-  }
-  .strat-header {
-    padding: 16px 20px; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-    -webkit-user-select: none; user-select: none;
-  }
-  .strat-header:active { background: rgba(52,75,72,.08); }
-  .strat-left { display: flex; align-items: center; gap: 12px; }
-  .strat-emoji { font-size: 26px; }
-  .strat-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--green); }
-  .strat-subtitle { font-size: 11px; color: var(--gray); margin-top: 2px; }
-  .strat-right { display: flex; align-items: center; gap: 8px; }
-  .strat-arrow { font-size: 18px; color: var(--green); transition: transform .25s; display: inline-block; }
-  .strat-body {
-    padding: 0 20px 20px;
-    border-top: 1px solid rgba(52,75,72,.1);
-    display: none;
-  }
-  .strat-desc { font-size: 13px; color: var(--gray); line-height: 1.75; margin: 14px 0; }
-  .step-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-  .step-num {
-    min-width: 22px; height: 22px; border-radius: 50%;
-    background: var(--green); color: var(--gold);
-    font-size: 10px; font-weight: 700; font-family: 'Space Mono', monospace;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .step-text { font-size: 12px; color: var(--dark); line-height: 1.6; padding-top: 2px; }
-  .example-box {
-    background: var(--green); border-radius: 10px; padding: 12px 14px; margin-top: 12px;
-  }
-  .example-label { font-size: 9px; font-family: 'Space Mono', monospace; color: var(--gold); letter-spacing: .1em; }
-  .example-text  { font-size: 12px; color: var(--light-gold); margin-top: 4px; line-height: 1.5; }
-
-  /* ── ROADMAP ── */
-  .rm-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-  .rm-tab {
-    background: rgba(52,75,72,.06); border: 1.5px solid rgba(52,75,72,.15);
-    color: var(--green); border-radius: 99px; padding: 7px 14px;
-    font-family: 'Space Mono', monospace; font-size: 10px;
-    letter-spacing: .06em; cursor: pointer; -webkit-appearance: none;
-    transition: all .2s;
-  }
-  .rm-tab.active { background: var(--green); border-color: var(--gold); color: var(--gold); }
-  .rm-card {
-    background: var(--green); border-radius: 20px;
-    padding: 32px 24px; text-align: center; min-height: 180px;
-    transition: all .3s;
-  }
-  .rm-icon   { font-size: 42px; margin-bottom: 12px; }
-  .rm-day    { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gold); letter-spacing: .2em; margin-bottom: 10px; }
-  .rm-title  { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); font-weight: 700; margin-bottom: 12px; }
-  .rm-desc   { color: var(--light-gold); font-size: 13px; line-height: 1.75; max-width: 400px; margin: 0 auto; }
-  .principles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 28px; }
-  .princ-card {
-    background: rgba(52,75,72,.05); border-radius: 14px;
-    padding: 16px; border: 1.5px solid rgba(52,75,72,.12);
-  }
-  .princ-icon  { font-size: 24px; margin-bottom: 8px; }
-  .princ-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--green); margin-bottom: 5px; }
-  .princ-desc  { font-size: 11px; color: var(--gray); line-height: 1.6; }
-
-  /* ── MANIFESTO ── */
-  #s5 { text-align: center; }
-  .manifesto-list { text-align: left; max-width: 500px; margin: 0 auto 32px; }
-  .manifesto-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; opacity: 0; }
-  .manifesto-item.revealed { animation: fadeUp .5s ease forwards; }
-  .m-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-top: 7px; flex-shrink: 0; }
-  .m-text { font-size: 14px; color: var(--gray); line-height: 1.75; }
-  .manifesto-quote {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(15px,3vw,20px); color: var(--gold);
-    font-style: italic; line-height: 1.55; margin-bottom: 20px;
-  }
-  .market-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 20px; }
-  .market-item { border-top: 2px solid var(--gold); padding-top: 10px; }
-  .market-n { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--gold); font-weight: 700; }
-  .market-l { font-size: 10px; color: rgba(218,195,155,.6); }
-  .final-box {
-    background: var(--green); border-radius: 18px;
-    padding: 24px 20px; margin-top: 24px;
-    border: 2px solid var(--gold);
-  }
-  .final-tag   { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--gold); letter-spacing: .2em; margin-bottom: 12px; }
-  .final-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--cream); font-weight: 700; margin-bottom: 10px; }
-  .final-desc  { font-size: 12px; color: rgba(218,195,155,.7); line-height: 1.7; margin-bottom: 16px; }
-  .final-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .final-pill  { background: rgba(218,195,155,.15); border-radius: 10px; padding: 8px 14px; font-size: 11px; color: var(--gold); font-family: 'Space Mono', monospace; }
+/* ── LOADING ── */
+#loader {
+  position:fixed; inset:0; background:var(--g2);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:9999;
+  animation: loaderHide 0s 2s forwards;
+}
+@keyframes loaderHide { to { opacity:0; pointer-events:none; visibility:hidden; } }
+.loader-logo { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:var(--gold); margin-bottom:8px; }
+.loader-sub  { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.22em; color:rgba(201,169,110,.5); margin-bottom:32px; }
+.loader-bar  { width:120px; height:2px; background:rgba(201,169,110,.2); border-radius:99px; overflow:hidden; }
+.loader-fill { height:100%; background:var(--gold); border-radius:99px; animation:loadBar 1.2s ease forwards; }
+@keyframes loadBar { from{width:0} to{width:100%} }
 </style>
 </head>
 <body>
 
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">FL</div>
+  <div class="loader-sub">FITLINK GLOBAL</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
 <!-- TOP NAV -->
 <div id="topnav">
-  <div class="nav-brand">
-    <div class="nav-dot"></div>
-    <span class="nav-title">FITLINK GLOBAL</span>
-    <span class="nav-sub">AFFILIATE ONBOARDING</span>
+  <div class="brand">
+    <div class="brand-logo">FL</div>
+    <div class="brand-text">
+      <div class="brand-name">FITLINK GLOBAL</div>
+      <div class="brand-sub" id="nav-subt">AFFILIATE ONBOARDING</div>
+    </div>
   </div>
-  <div id="nav-dots"></div>
+  <div class="nav-right">
+    <div id="lang-sw">
+      <button class="lang-btn active" onclick="setLang('es',this)">ES</button>
+      <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('de',this)">DE</button>
+    </div>
+    <div id="nav-progress"></div>
+  </div>
 </div>
 
 <!-- SCROLL AREA -->
-<div id="scroll-area">
+<div id="scroll">
 
   <!-- S0: WELCOME -->
-  <div id="s0" class="section fade-up">
-    <div class="section-tag">BIENVENIDO AL EQUIPO</div>
-    <div class="section-title">
-      Estás a punto de<br>
-      <span class="gold-shimmer">vender el futuro</span><br>
-      del fitness
-    </div>
-    <p class="section-body" style="max-width:480px;margin:0 auto 24px;">
-      Este sistema te va a dar todo lo que necesitas para representar a FitLink Global con autoridad, confianza y resultados. No es un catálogo. Es una ventaja competitiva.
-    </p>
-    <div class="pill-row">
-      <div class="pill">20+ Productos & Servicios</div>
-      <div class="pill">4 Continentes</div>
-      <div class="pill">Hardware · Software · Diseño</div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-box"><div class="stat-n">20+</div><div class="stat-l">Partners</div></div>
-      <div class="stat-box"><div class="stat-n">6</div><div class="stat-l">Módulos</div></div>
-      <div class="stat-box"><div class="stat-n">∞</div><div class="stat-l">Oportunidad</div></div>
+  <div id="s0">
+    <div class="welcome-hero fade-up">
+      <div>
+        <div class="hero-badge"><div class="dot"></div><span data-t="welcome_badge">BIENVENIDO AL EQUIPO · WELCOME · WILLKOMMEN</span></div>
+        <h1 class="title" style="text-align:center;">
+          <span data-t="hero_line1">Estás a punto de</span><br>
+          <span class="gold-shimmer" data-t="hero_line2">vender el futuro</span><br>
+          <span data-t="hero_line3">del fitness</span>
+        </h1>
+        <p class="subtitle" style="text-align:center;margin:0 auto;" data-t="hero_desc">Este sistema te da todo lo que necesitas para representar a FitLink Global con autoridad, confianza y resultados. No es un catálogo — es una ventaja competitiva.</p>
+      </div>
+      <div class="pill-row">
+        <div class="pill" data-t="pill1">20+ Partners</div>
+        <div class="pill" data-t="pill2">4 Continentes</div>
+        <div class="pill" data-t="pill3">Hardware · Software · Diseño</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-n">20+</div><div class="stat-l" data-t="stat1">Partners</div></div>
+        <div class="stat"><div class="stat-n">80+</div><div class="stat-l" data-t="stat2">Países</div></div>
+        <div class="stat"><div class="stat-n">∞</div><div class="stat-l" data-t="stat3">Oportunidad</div></div>
+      </div>
+      <div class="scroll-hint">↓ <span data-t="scroll_hint">Desliza para comenzar</span></div>
     </div>
   </div>
 
   <!-- S1: STORY -->
-  <div id="s1" class="section fade-up" style="display:none;">
-    <div class="section-tag">LA HISTORIA</div>
-    <div class="section-title">No somos una distribuidora. Somos un <em>ecosistema</em>.</div>
-    <div class="timeline-line">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">EL ORIGEN</div>
-        <div class="tl-title">Una brecha en el mercado</div>
-        <p class="section-body">FitLink nació de observar que el sector fitness global carecía de un puente real entre la innovación tecnológica y los operadores de negocio. Las mejores soluciones no llegaban a quienes más las necesitaban.</p>
+  <div id="s1" style="display:none">
+    <div class="page fade-up">
+      <div class="tag" data-t="story_tag">LA HISTORIA</div>
+      <h1 class="title" data-t="story_title">No somos una distribuidora. Somos un <em>ecosistema</em>.</h1>
+      <p class="subtitle" data-t="story_desc">FitLink opera desde Berlín conectando los mejores productos y servicios del mundo fitness con operadores de negocio en DACH, España y Latinoamérica.</p>
+      <div class="tl-wrap" id="tl-wrap"></div>
+      <div class="quote-card">
+        <div class="quote-text" data-t="quote">"El fitness no es solo industria. Es el espejo donde la sociedad refleja sus valores de salud, longevidad y bienestar."</div>
+        <div class="quote-author">— FitLink Global · Berlin, Deutschland</div>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">LA VISIÓN</div>
-        <div class="tl-title">Más que distribución</div>
-        <p class="section-body">Desde el primer día, FitLink se posicionó como socio estratégico. No vendemos productos: conectamos soluciones con problemas reales, construimos relaciones de largo plazo, y elevamos toda la industria.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">LA RED</div>
-        <div class="tl-title">20+ partners de primer nivel</div>
-        <p class="section-body">Construimos un portfolio cuidadosamente seleccionado: hardware de vanguardia, software que genera datos accionables, y servicios que transforman espacios en experiencias. Europa, Latinoamérica, el mundo.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">HOY</div>
-        <div class="tl-title">Donde tú entras</div>
-        <p class="section-body">FitLink opera en DACH, España y Latinoamérica con una red de revendedores que multiplica el impacto. Tú eres la extensión de esa red. Tu éxito es nuestro éxito.</p>
-      </div>
-    </div>
-    <div class="dark-card" style="text-align:center;">
-      <div class="dark-card-title">"El fitness no es solo industria. Es el espejo donde la sociedad refleja sus valores de salud, longevidad y bienestar."</div>
-      <div style="font-size:11px;color:rgba(218,195,155,.55);font-family:'Space Mono',monospace;">— FitLink Global · Berlin</div>
     </div>
   </div>
 
-  <!-- S2: PORTFOLIO -->
-  <div id="s2" class="section fade-up" style="display:none;">
-    <div class="section-tag">EL PORTFOLIO</div>
-    <div class="section-title">Cada producto,<br>una oportunidad.</div>
-    <p class="section-body" style="margin-bottom:24px;">Toca cualquier tarjeta para ver el argumento de venta completo.</p>
-    <div class="cat-tabs" id="cat-tabs">
-      <button class="cat-tab active" data-cat="hardware" onclick="switchCat('hardware',this)">🔧 Hardware <span style="opacity:.6;font-size:9px;">(11)</span></button>
-      <button class="cat-tab" data-cat="software" onclick="switchCat('software',this)">💻 Software <span style="opacity:.6;font-size:9px;">(7)</span></button>
-      <button class="cat-tab" data-cat="services" onclick="switchCat('services',this)">✨ Servicios <span style="opacity:.6;font-size:9px;">(2)</span></button>
-    </div>
-    <div id="partner-grid" class="partner-grid"></div>
-    <div style="margin-top:24px;background:rgba(52,75,72,.04);border-radius:14px;padding:16px;border:1.5px dashed rgba(52,75,72,.2);text-align:center;">
-      <p style="font-size:12px;color:var(--gray);">El portfolio crece constantemente. Como revendedor, recibirás actualizaciones anticipadas de nuevos productos antes del lanzamiento oficial.</p>
+  <!-- S2: PARTNERS -->
+  <div id="s2" style="display:none">
+    <div class="page fade-up">
+      <div class="tag" data-t="port_tag">EL PORTFOLIO</div>
+      <h1 class="title" data-t="port_title">Cada producto,<br>una oportunidad.</h1>
+      <p class="subtitle" data-t="port_desc">Toca cualquier partner para ver su ficha completa: productos destacados, argumentos de venta y combos recomendados.</p>
+      <div class="divider"></div>
+      <div class="cat-bar" id="cat-bar"></div>
+      <div class="p-grid" id="p-grid"></div>
+      <div class="p-note" data-t="port_note">El portfolio crece constantemente. Los revendedores reciben acceso anticipado a nuevos lanzamientos.</div>
     </div>
   </div>
 
   <!-- S3: STRATEGIES -->
-  <div id="s3" class="section fade-up" style="display:none;">
-    <div class="section-tag">ESTRATEGIAS DE VENTA</div>
-    <div class="section-title">No hay una sola forma de ganar. Hay cinco.</div>
-    <p class="section-body" style="margin-bottom:28px;">Toca cada estrategia para ver el playbook completo.</p>
-    <div id="strat-list"></div>
+  <div id="s3" style="display:none">
+    <div class="page fade-up">
+      <div class="tag" data-t="strat_tag">ESTRATEGIAS DE VENTA</div>
+      <h1 class="title" data-t="strat_title">No hay una sola forma de ganar. Hay cinco.</h1>
+      <p class="subtitle" data-t="strat_desc">Cada estrategia tiene su propio playbook. Toca para expandir.</p>
+      <div class="strat-list" id="strat-list"></div>
+    </div>
   </div>
 
   <!-- S4: ROADMAP -->
-  <div id="s4" class="section fade-up" style="display:none;">
-    <div class="section-tag">TU CAMINO</div>
-    <div class="section-title">Los primeros 60 días<br>lo cambian todo.</div>
-    <div class="rm-tabs" id="rm-tabs"></div>
-    <div class="rm-card" id="rm-card"></div>
-    <div class="principles-grid">
-      <div class="princ-card"><div class="princ-icon">🎯</div><div class="princ-title">Especialización</div><div class="princ-desc">Un mercado primero. Profundidad antes que amplitud.</div></div>
-      <div class="princ-card"><div class="princ-icon">🤝</div><div class="princ-title">Relación primero</div><div class="princ-desc">La confianza de hoy es la comisión de mañana.</div></div>
-      <div class="princ-card"><div class="princ-icon">📊</div><div class="princ-title">Habla con datos</div><div class="princ-desc">ROI y casos de éxito. Los números cierran puertas.</div></div>
-      <div class="princ-card"><div class="princ-icon">🔗</div><div class="princ-title">Piensa en combos</div><div class="princ-desc">Dos productos juntos valen más que dos veces uno.</div></div>
+  <div id="s4" style="display:none">
+    <div class="page fade-up">
+      <div class="tag" data-t="road_tag">TU CAMINO</div>
+      <h1 class="title" data-t="road_title">Los primeros 60 días lo cambian todo.</h1>
+      <div class="rm-tabs" id="rm-tabs"></div>
+      <div class="rm-card" id="rm-card"></div>
+      <div class="princ-grid" id="princ-grid"></div>
     </div>
   </div>
 
   <!-- S5: MANIFESTO -->
-  <div id="s5" class="section fade-up" style="display:none;">
-    <div class="section-tag">EL MANIFESTO</div>
-    <div class="section-title">No eres un vendedor.<br>Eres un <span class="gold-shimmer">arquitecto</span><br>de negocios fitness.</div>
-    <div class="manifesto-list" id="manifesto-list"></div>
-    <div class="dark-card">
-      <div class="manifesto-quote">"El mercado global de fitness y wellness supera los $5 billones. La ventana para posicionarse como referente ya está abierta."</div>
-      <div class="market-grid">
-        <div class="market-item"><div class="market-n">DACH</div><div class="market-l">Mercado Principal</div></div>
-        <div class="market-item"><div class="market-n">LATAM</div><div class="market-l">Expansión Activa</div></div>
-        <div class="market-item"><div class="market-n">Global</div><div class="market-l">Visión FitLink</div></div>
+  <div id="s5" style="display:none">
+    <div class="page fade-up manifesto-hero">
+      <div class="tag" data-t="man_tag">EL MANIFESTO</div>
+      <h1 class="title">
+        <span data-t="man_t1">No eres un vendedor.</span><br>
+        <span data-t="man_t2">Eres un</span> <span class="gold-shimmer" data-t="man_t3">arquitecto</span><br>
+        <span data-t="man_t4">de negocios fitness.</span>
+      </h1>
+      <div class="m-lines" id="m-lines"></div>
+      <div class="dark-box">
+        <div class="quote-text" style="font-size:clamp(14px,3vw,18px);margin-bottom:20px;" data-t="man_quote">"El mercado global de fitness y wellness supera los $5 billones. La ventana para posicionarse como referente ya está abierta."</div>
+        <div class="market-grid">
+          <div class="mkt-item"><div class="mkt-n">DACH</div><div class="mkt-l" data-t="mkt1">Mercado Principal</div></div>
+          <div class="mkt-item"><div class="mkt-n">LATAM</div><div class="mkt-l" data-t="mkt2">Expansión Activa</div></div>
+          <div class="mkt-item"><div class="mkt-n">Global</div><div class="mkt-l" data-t="mkt3">Visión FitLink</div></div>
+        </div>
       </div>
-    </div>
-    <div class="final-box">
-      <div class="final-tag">SIGUIENTE PASO</div>
-      <div class="final-title">El onboarding termina. El trabajo empieza.</div>
-      <div class="final-desc">Vuelve a este sistema cuando necesites. Explora el portfolio, practica los argumentos de venta, y contáctanos cuando tengas tu primer prospecto calificado.</div>
-      <div class="final-pills">
-        <div class="final-pill">Berlin · DACH · España · LATAM</div>
-        <div class="final-pill">fitlinkglobal.com</div>
+      <div class="final-cta">
+        <div class="final-tag" data-t="cta_tag">SIGUIENTE PASO</div>
+        <div class="final-ttl" data-t="cta_ttl">El onboarding termina. El trabajo empieza.</div>
+        <div class="final-dsc" data-t="cta_dsc">Vuelve a este sistema cuando necesites. Explora el portfolio, practica los argumentos de venta, y contáctanos cuando tengas tu primer prospecto calificado.</div>
+        <div class="final-pills">
+          <div class="final-pill">Berlin · DACH · España · LATAM</div>
+          <div class="final-pill">fitlinkglobal.com</div>
+          <div class="final-pill">@fitlinkglobal</div>
+        </div>
       </div>
     </div>
   </div>
 
-</div><!-- /scroll-area -->
+</div><!-- /scroll -->
 
 <!-- BOTTOM NAV -->
 <div id="botnav">
-  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← ANTERIOR</button>
-  <div id="section-label">Bienvenida</div>
-  <button class="nav-btn" id="btn-next" onclick="navigate(1)">SIGUIENTE →</button>
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled data-t="nav_prev">← Anterior</button>
+  <div id="sec-info">
+    <div class="sec-num" id="sec-num">01 / 06</div>
+    <div class="sec-name" id="sec-name">Bienvenida</div>
+  </div>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)" data-t="nav_next">Siguiente →</button>
 </div>
 
-<!-- MODAL -->
-<div id="modal-overlay" onclick="closeModal(event)">
-  <div id="modal-box">
-    <div class="modal-header">
-      <div>
-        <div style="font-size:32px;margin-bottom:6px;" id="modal-emoji"></div>
-        <div class="modal-name" id="modal-name"></div>
-        <div id="modal-badge" style="margin-top:6px;"></div>
-      </div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+<!-- PARTNER MODAL -->
+<div id="modal-bg" onclick="closeModalBg(event)">
+  <div id="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-hero">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-emoji-big" id="m-emoji"></div>
+      <div class="modal-partner-name" id="m-name"></div>
+      <div class="modal-partner-tag"  id="m-tag"></div>
     </div>
-    <div class="modal-desc" id="modal-desc"></div>
-    <div class="modal-section-label">CLIENTE IDEAL</div>
-    <div class="tag-chips" id="modal-chips"></div>
-    <div class="modal-section-label">TU ARGUMENTO DE VENTA</div>
-    <div class="pitch-box"><div class="pitch-text" id="modal-pitch"></div></div>
+    <div class="modal-body" id="m-body"></div>
   </div>
 </div>
 
 <script>
-// ── DATA ──
-const SECTIONS = ["Bienvenida","La Historia","El Portfolio","Estrategias","Tu Camino","Manifesto"];
-
-const PARTNERS = {
-  hardware:[
-    {name:"Trackbar",emoji:"📊",tag:"Performance Tracking",tagline:"Monitoreo de rendimiento en tiempo real",description:"Sistema de tracking deportivo que registra métricas clave de entrenamiento. Ideal para gimnasios orientados a resultados y centros de alto rendimiento.",ideal:["Gimnasios premium","Centros de CrossFit","Clubes deportivos"],pitch:"Tus miembros quieren datos. Trackbar los convierte en resultados visibles que fidelizan."},
-    {name:"Mindzmove",emoji:"🧠",tag:"Neuro-Fitness",tagline:"Bienestar mental integrado al movimiento",description:"Tecnología que une el entrenamiento físico con el bienestar cognitivo. Diferenciador poderoso para centros de wellness de alto valor.",ideal:["Wellness centers","Clínicas de salud","Spas corporativos"],pitch:"El mercado del bienestar mental explota. Mindzmove es la puerta de entrada."},
-    {name:"BASI Systems",emoji:"🏋️",tag:"Pilates & Rehab",tagline:"El estándar mundial en equipamiento Pilates",description:"Equipamiento Pilates de gama alta con respaldo pedagógico y certificación internacional. Referente global en reformers y sistemas de rehabilitación.",ideal:["Estudios Pilates","Clínicas fisioterapia","Centros médicos"],pitch:"BASI es la marca que los instructores certificados exigen. Vender BASI es vender prestigio."},
-    {name:"Wiemspro",emoji:"⚡",tag:"EMS Technology",tagline:"Electroestimulación de élite — resultados en 20 min",description:"Sistemas EMS profesionales que multiplican la efectividad del entrenamiento. El modelo de negocio de menor espacio y mayor facturación por m².",ideal:["Boutique fitness","Franquicias EMS","Personal trainers"],pitch:"20 minutos = 2 horas de entrenamiento. El producto que más rápido convierte a los leads."},
-    {name:"O'live Fitness",emoji:"🏃",tag:"Functional Equipment",tagline:"Equipamiento funcional de diseño premium",description:"Línea completa de equipamiento functional fitness con acabados de diseño. Estética y performance en un solo producto.",ideal:["Gimnasios boutique","Hoteles 5*","Corporativo wellness"],pitch:"Cuando el espacio es parte del branding, O'live es la solución."},
-    {name:"CUBE Sports",emoji:"🎯",tag:"Versatile Training",tagline:"Sistemas de entrenamiento modulares y versátiles",description:"Soluciones de entrenamiento adaptables a múltiples espacios y usos. Desde fisioterapia hasta entrenamiento funcional avanzado.",ideal:["Fisioterapia","Pequeños gimnasios","Hostelería"],pitch:"Flexibilidad total. Un producto, múltiples aplicaciones, múltiples clientes."},
-    {name:"Onnafit",emoji:"💪",tag:"Smart Training",tagline:"Entrenamiento inteligente e interactivo",description:"Plataforma de entrenamiento con tecnología interactiva. Combina hardware y software para experiencias de entrenamiento únicas.",ideal:["Gimnasios tech-forward","Cadenas fitness","Colegios"],pitch:"La generación Z espera experiencias digitales en el gym. Onnafit las entrega."},
-    {name:"POOLBIKING",emoji:"🚴",tag:"Aquatic Fitness",tagline:"Ciclismo acuático de alto impacto",description:"Bicicletas especializadas para entrenamiento en piscina. Nicho de alto crecimiento con muy poca competencia en el mercado.",ideal:["Spas","Centros acuáticos","Hoteles con piscina"],pitch:"Mercado de nicho = precios premium y casi cero competencia directa."},
-    {name:"ICAROS",emoji:"🕹️",tag:"VR Fitness",tagline:"Entrenamiento en realidad virtual",description:"Sistema de fitness en realidad virtual que gamifica el ejercicio. Atracción única para gimnasios que quieren diferenciarse radicalmente.",ideal:["Centros de innovación","Gimnasios premium","Rehabilitación"],pitch:"El WOW factor definitivo. Las personas vienen y se quedan por la experiencia."},
-    {name:"Sparkfield",emoji:"🔥",tag:"Infrared Sauna",tagline:"Saunas infrarrojos de diseño premium",description:"Cabinas de sauna infrarrojo con diseño escandinavo de alta gama. El complemento perfecto para cualquier oferta wellness.",ideal:["Wellness centers","Spas","Gimnasios premium"],pitch:"Recovery es el nuevo fitness. Sparkfield cierra la oferta de bienestar completo."},
-    {name:"Bodytone",emoji:"🏆",tag:"Cardio & Strength",tagline:"Maquinaria completa para gimnasios integrales",description:"Línea completa de cardiovascular y musculación con excelente relación calidad-precio. La opción más versátil para equipar un gimnasio de cero.",ideal:["Nuevos gimnasios","Centros municipales","Hoteles"],pitch:"Equipar un gimnasio completo con una sola marca, un solo interlocutor."},
-  ],
-  software:[
-    {name:"ROOK",emoji:"📡",tag:"Health Data API",tagline:"La capa de datos de salud para cualquier app",description:"API que conecta wearables y dispositivos de salud con cualquier aplicación. Infraestructura crítica para el ecosistema health-tech.",ideal:["Apps de salud","Seguros","Plataformas fitness"],pitch:"Si tienen una app y usuarios activos, necesitan ROOK. El argumento de venta se escribe solo."},
-    {name:"Harbiz",emoji:"📱",tag:"Gym Management",tagline:"Software de gestión todo-en-uno para fitness",description:"Plataforma SaaS para gestión de gimnasios: membresías, pagos, clases, comunicación. Solución integral que reemplaza múltiples herramientas.",ideal:["Gimnasios independientes","Estudios boutique","Cadenas"],pitch:"Cada gimnasio sin sistema eficiente pierde dinero cada día. Harbiz lo resuelve."},
-    {name:"WizFit AI",emoji:"🤖",tag:"AI Coaching",tagline:"Inteligencia artificial aplicada al entrenamiento",description:"Plataforma de coaching personalizado impulsada por IA. Escala la capacitación personalizada sin escalar el equipo.",ideal:["Personal trainers","Apps fitness","Corporativo wellness"],pitch:"IA + fitness = el mercado que crece más rápido en 2025. Posición early-mover."},
-    {name:"SelfLoops",emoji:"🔄",tag:"Wearable Analytics",tagline:"Analytics avanzados para wearables y dispositivos",description:"Plataforma de análisis de datos de wearables para grupos y organizaciones. Convierte datos de dispositivos en insights accionables.",ideal:["Equipos deportivos","Corporativo","Centros de salud"],pitch:"Los datos sin análisis no sirven. SelfLoops convierte números en decisiones."},
-    {name:"Amalgama",emoji:"⚙️",tag:"Tech Integration",tagline:"Integración tecnológica para el sector fitness",description:"Soluciones de integración tecnológica que conectan sistemas dispares del ecosistema fitness y wellness.",ideal:["Cadenas fitness","Operadores multi-site","Tech companies"],pitch:"El problema de integración es universal. Amalgama es la solución invisible que vale oro."},
-    {name:"Shark Digital",emoji:"🦈",tag:"Digital Marketing",tagline:"Marketing digital especializado en fitness",description:"Agencia de marketing digital enfocada en el sector fitness y wellness. Estrategias de captación y retención de clientes para el mercado específico.",ideal:["Gimnasios","Estudios","Marcas fitness"],pitch:"Marketing genérico no funciona en fitness. Shark habla el idioma del sector."},
-    {name:"Lemin",emoji:"📈",tag:"Leadership Analytics",tagline:"Analytics de liderazgo para organizaciones fitness",description:"Plataforma de análisis de performance y liderazgo organizacional. Ayuda a los operadores fitness a tomar decisiones basadas en datos de gestión.",ideal:["Cadenas fitness","Franquicias","Grupos empresariales"],pitch:"Los mejores operadores fitness toman decisiones con datos. Lemin los genera."},
-  ],
-  services:[
-    {name:"Mironova Interior Design",emoji:"🏛️",tag:"Interior Design",tagline:"Diseño de interiores especializado en fitness & wellness",description:"Estudio de diseño de interiores con expertise en espacios fitness, wellness y hospitalidad. Transforma espacios en experiencias.",ideal:["Nuevas aperturas","Renovaciones premium","Hoteles wellness"],pitch:"El espacio vende antes que el equipamiento. Mironova crea espacios que enamoran."},
-    {name:"FuCo Care Robotics",emoji:"🤖",tag:"Care Robotics",tagline:"Robótica de cuidado para salud y wellness",description:"Soluciones robóticas para el sector salud y bienestar. Tecnología de frontera para centros médicos y wellness de alta gama.",ideal:["Clínicas","Centros médicos","Longevity clinics"],pitch:"La robótica en salud no es el futuro — es el presente. Los early adopters ganan."},
-  ]
+/* ═══════════════════════════════════════════════
+   TRANSLATIONS
+═══════════════════════════════════════════════ */
+const T = {
+  es: {
+    welcome_badge:"BIENVENIDO AL EQUIPO",
+    hero_line1:"Estás a punto de", hero_line2:"vender el futuro", hero_line3:"del fitness",
+    hero_desc:"Este sistema te da todo lo que necesitas para representar a FitLink Global con autoridad, confianza y resultados. No es un catálogo — es una ventaja competitiva.",
+    pill1:"20+ Partners", pill2:"4 Continentes", pill3:"Hardware · Software · Diseño",
+    stat1:"Partners", stat2:"Países", stat3:"Oportunidad",
+    scroll_hint:"Desliza para comenzar",
+    story_tag:"LA HISTORIA", story_title:"No somos una distribuidora. Somos un ecosistema.",
+    story_desc:"FitLink opera desde Berlín conectando los mejores productos del mundo fitness con operadores en DACH, España y Latinoamérica.",
+    quote:""El fitness no es solo industria. Es el espejo donde la sociedad refleja sus valores de salud, longevidad y bienestar."",
+    port_tag:"EL PORTFOLIO", port_title:"Cada producto, una oportunidad.",
+    port_desc:"Toca cualquier partner para ver su ficha completa: productos destacados, argumentos de venta y combos recomendados.",
+    port_note:"El portfolio crece constantemente. Los revendedores reciben acceso anticipado a nuevos lanzamientos.",
+    strat_tag:"ESTRATEGIAS", strat_title:"No hay una sola forma de ganar. Hay cinco.",
+    strat_desc:"Cada estrategia tiene su propio playbook. Toca para expandir.",
+    road_tag:"TU CAMINO", road_title:"Los primeros 60 días lo cambian todo.",
+    man_tag:"EL MANIFESTO", man_t1:"No eres un vendedor.", man_t2:"Eres un", man_t3:"arquitecto", man_t4:"de negocios fitness.",
+    man_quote:""El mercado global de fitness y wellness supera los $5 billones. La ventana para posicionarse como referente ya está abierta."",
+    mkt1:"Mercado Principal", mkt2:"Expansión Activa", mkt3:"Visión FitLink",
+    cta_tag:"SIGUIENTE PASO", cta_ttl:"El onboarding termina. El trabajo empieza.",
+    cta_dsc:"Vuelve a este sistema cuando necesites. Explora el portfolio, practica los argumentos de venta, y contáctanos con tu primer prospecto.",
+    nav_prev:"← Anterior", nav_next:"Siguiente →",
+    sec_names:["Bienvenida","La Historia","Portfolio","Estrategias","Tu Camino","Manifesto"],
+    cat_hw:"Hardware", cat_sw:"Software", cat_sv:"Servicios",
+    modal_desc:"DESCRIPCIÓN", modal_ideal:"CLIENTE IDEAL", modal_pitch:"ARGUMENTO DE VENTA",
+    modal_prods:"PRODUCTOS DESTACADOS", modal_obj:"OBJECIONES COMUNES", modal_combo:"COMBO RECOMENDADO",
+    swipe_hint:"Deslizá hacia arriba para ver más",
+    tl:[
+      {y:"EL ORIGEN",t:"Una brecha en el mercado",b:"FitLink nació de observar que el sector fitness global carecía de un puente real entre la innovación tecnológica y los operadores de negocio. Las mejores soluciones no llegaban a quienes más las necesitaban."},
+      {y:"LA VISIÓN",t:"Más que distribución",b:"Desde el primer día, FitLink se posicionó como socio estratégico. No vendemos productos: conectamos soluciones con problemas reales y construimos relaciones de largo plazo."},
+      {y:"LA RED",t:"20+ partners de primer nivel",b:"Un portfolio cuidadosamente seleccionado: hardware de vanguardia, software que genera datos accionables, y servicios que transforman espacios en experiencias."},
+      {y:"HOY",t:"Donde tú entras",b:"FitLink opera en DACH, España y Latinoamérica con una red de revendedores que multiplica el impacto. Tu éxito es nuestro éxito."},
+    ],
+    strats:[
+      {ico:"🔗",ttl:"La Estrategia del Combo",sub:"Hardware + Software = Retención máxima",badge:"ALTO ROI",desc:"Nunca vendas solo hardware o solo software. El combo crea dependencia positiva y aumenta el ticket promedio 2–3×.",steps:["Identifica el pain principal del cliente","Propón el hardware que resuelve el problema visible","Añade el software que lo potencia y digitaliza","Presenta el ROI combinado como una sola inversión"],ex:"Wiemspro + Harbiz + Lemin = Centro EMS llave en mano"},
+      {ico:"🎯",ttl:"La Estrategia Vertical",sub:"Especialización por tipo de cliente",badge:"REFERIDOS",desc:"Domina un vertical antes de expandirte. La especialización genera referidos naturales y posicionamiento de autoridad.",steps:["Elige un vertical: fisioterapia, wellness, boutique, corporativo","Aprende el lenguaje específico del sector","Construye casos de éxito en ese vertical","Usa cada cliente como referencia para el siguiente"],ex:"Fisioterapia: BASI + CUBE Sports + SelfLoops = Solución clínica completa"},
+      {ico:"💎",ttl:"La Estrategia Premium",sub:"Vende la experiencia, no el producto",badge:"TICKET ALTO",desc:"Los mejores clientes compran visión. Presenta FitLink como asesoría estratégica, no como distribuidora.",steps:["Abre con preguntas sobre el proyecto, no el presupuesto","Diseña propuesta a medida con 3–5 productos complementarios","Incluye siempre Mironova en proyectos de apertura","Negocia paquetes, nunca productos sueltos"],ex:"Hotel 5*: Sparkfield + ICAROS + POOLBIKING + Mironova = Wellness Experience única"},
+      {ico:"📱",ttl:"La Estrategia SaaS First",sub:"Empieza con software, escala con hardware",badge:"LARGO PLAZO",desc:"El software entra fácil, crea relación, genera confianza. El hardware viene después.",steps:["Empieza con Harbiz o WizFit AI","Demuestra valor rápido con demo funcional","Identifica carencias del espacio físico","Propón equipamiento como upgrade natural"],ex:"Harbiz → WizFit AI → Bodytone = Relación de 3 años"},
+      {ico:"⚡",ttl:"La Estrategia de Urgencia",sub:"El mercado no espera",badge:"CIERRE RÁPIDO",desc:"Crea urgencia genuina con datos de mercado reales — no urgencia artificial.",steps:["Lleva datos: 'El mercado EMS crece X% anual en DACH'","Señala el costo de no decidir: competidores ya adoptaron","Propón un piloto de bajo riesgo","Define un deadline ligado a disponibilidad o precio"],ex:"ROOK: 'Tu competidor ya integra wearables. Cada mes sin datos es market share perdido'"},
+    ],
+    rm:[
+      {d:"Día 1–3",ico:"📚",t:"Inmersión de Producto",b:"Conoce el portfolio completo. Identifica tus 3 productos favoritos para comenzar."},
+      {d:"Día 4–7",ico:"🎯",t:"Elige tu Vertical",b:"Decide en qué mercado quieres especializarte primero."},
+      {d:"Semana 2",ico:"📞",t:"Primeros Contactos",b:"5 llamadas de exploración sin objetivo de venta. Solo escucha y aprende."},
+      {d:"Semana 3",ico:"📋",t:"Primera Propuesta",b:"Prepara una propuesta combo para tu mejor prospecto."},
+      {d:"Mes 2",ico:"🏆",t:"Primer Cierre",b:"Con el pipeline activo, el primer cierre llega. El momentum empieza aquí."},
+    ],
+    princs:[
+      {ico:"🎯",t:"Especialización",d:"Un mercado primero. Profundidad antes que amplitud."},
+      {ico:"🤝",t:"Relación primero",d:"La confianza de hoy es la comisión de mañana."},
+      {ico:"📊",t:"Habla con datos",d:"ROI y casos de éxito cierran puertas."},
+      {ico:"🔗",t:"Piensa en combos",d:"Dos productos juntos valen más que dos veces uno."},
+    ],
+    m_lines:["Cada gimnasio que equipas mejor mejora la vida de sus miembros.","Cada software que implementas convierte datos en decisiones más inteligentes.","Cada solución que recomiendas construye tu reputación como experto del sector.","Tu éxito y el éxito de tus clientes son la misma cosa."],
+  },
+  en: {
+    welcome_badge:"WELCOME TO THE TEAM",
+    hero_line1:"You're about to", hero_line2:"sell the future", hero_line3:"of fitness",
+    hero_desc:"This system gives you everything you need to represent FitLink Global with authority, confidence, and results. Not a catalogue — a competitive edge.",
+    pill1:"20+ Partners", pill2:"4 Continents", pill3:"Hardware · Software · Design",
+    stat1:"Partners", stat2:"Countries", stat3:"Opportunity",
+    scroll_hint:"Swipe to begin",
+    story_tag:"THE STORY", story_title:"We're not a distributor. We're an ecosystem.",
+    story_desc:"FitLink operates from Berlin connecting the world's best fitness products with operators across DACH, Spain and Latin America.",
+    quote:""Fitness is not just an industry. It's the mirror where society reflects its values of health, longevity and wellbeing."",
+    port_tag:"THE PORTFOLIO", port_title:"Every product, an opportunity.",
+    port_desc:"Tap any partner to see the full profile: key products, sales arguments and recommended combos.",
+    port_note:"The portfolio grows constantly. Resellers get early access to new product launches.",
+    strat_tag:"SALES STRATEGIES", strat_title:"There's not one way to win. There are five.",
+    strat_desc:"Each strategy has its own playbook. Tap to expand.",
+    road_tag:"YOUR PATH", road_title:"The first 60 days change everything.",
+    man_tag:"THE MANIFESTO", man_t1:"You're not a salesperson.", man_t2:"You're an", man_t3:"architect", man_t4:"of fitness businesses.",
+    man_quote:""The global fitness & wellness market exceeds $5 trillion. The window to position yourself as a category leader is open right now."",
+    mkt1:"Primary Market", mkt2:"Active Expansion", mkt3:"FitLink Vision",
+    cta_tag:"NEXT STEP", cta_ttl:"Onboarding ends. Work begins.",
+    cta_dsc:"Come back to this system whenever you need. Explore the portfolio, practice your sales arguments, and reach out when you have your first qualified prospect.",
+    nav_prev:"← Previous", nav_next:"Next →",
+    sec_names:["Welcome","The Story","Portfolio","Strategies","Your Path","Manifesto"],
+    cat_hw:"Hardware", cat_sw:"Software", cat_sv:"Services",
+    modal_desc:"DESCRIPTION", modal_ideal:"IDEAL CLIENT", modal_pitch:"YOUR SALES PITCH",
+    modal_prods:"KEY PRODUCTS", modal_obj:"COMMON OBJECTIONS", modal_combo:"RECOMMENDED COMBO",
+    swipe_hint:"Swipe up to see more",
+    tl:[
+      {y:"THE ORIGIN",t:"A gap in the market",b:"FitLink was born from observing that the global fitness sector lacked a real bridge between technological innovation and business operators. The best solutions weren't reaching those who needed them most."},
+      {y:"THE VISION",t:"More than distribution",b:"From day one, FitLink positioned itself as a strategic partner. We don't sell products: we connect solutions with real problems and build long-term relationships."},
+      {y:"THE NETWORK",t:"20+ first-class partners",b:"A carefully selected portfolio: cutting-edge hardware, software that generates actionable data, and services that transform spaces into experiences."},
+      {y:"TODAY",t:"Where you come in",b:"FitLink operates in DACH, Spain and Latin America with a reseller network that multiplies impact. Your success is our success."},
+    ],
+    strats:[
+      {ico:"🔗",ttl:"The Combo Strategy",sub:"Hardware + Software = Maximum Retention",badge:"HIGH ROI",desc:"Never sell just hardware or just software. The combo creates positive dependency and increases average ticket 2–3×.",steps:["Identify the client's primary pain point","Propose the hardware that solves the visible problem","Add the software that powers and digitizes it","Present the combined ROI as a single investment"],ex:"Wiemspro + Harbiz + Lemin = Turnkey EMS Center"},
+      {ico:"🎯",ttl:"The Vertical Strategy",sub:"Specialization by client type",badge:"REFERRALS",desc:"Dominate one vertical before expanding. Specialization generates natural referrals and authority positioning.",steps:["Choose a vertical: physio, wellness, boutique, corporate","Learn the specific language of the sector","Build success cases in that vertical","Use each client as a reference for the next"],ex:"Physio: BASI + CUBE Sports + SelfLoops = Complete clinical solution"},
+      {ico:"💎",ttl:"The Premium Strategy",sub:"Sell the experience, not the product",badge:"HIGH TICKET",desc:"The best clients buy vision. Present FitLink as strategic consulting, not a distributor.",steps:["Open with questions about the project, not the budget","Design a tailored proposal with 3–5 complementary products","Always include Mironova in opening projects","Negotiate packages, never individual products"],ex:"5* Hotel: Sparkfield + ICAROS + POOLBIKING + Mironova = Unique Wellness Experience"},
+      {ico:"📱",ttl:"The SaaS First Strategy",sub:"Start with software, scale with hardware",badge:"LONG TERM",desc:"Software gets in easily, creates a relationship, builds trust. Hardware comes after.",steps:["Start with Harbiz or WizFit AI","Demonstrate value quickly with a functional demo","Identify physical space gaps during the process","Propose equipment as a natural upgrade"],ex:"Harbiz → WizFit AI → Bodytone = 3-year relationship"},
+      {ico:"⚡",ttl:"The Urgency Strategy",sub:"The market won't wait",badge:"FAST CLOSE",desc:"Create genuine urgency with real market data — not artificial pressure.",steps:["Bring data: 'The EMS market grows X% annually in DACH'","Highlight the cost of not deciding: competitors already adopted","Propose a low-risk pilot","Define a clear deadline tied to availability or price"],ex:"ROOK: 'Your competitor already integrates wearables. Every month without data is lost market share'"},
+    ],
+    rm:[
+      {d:"Day 1–3",ico:"📚",t:"Product Immersion",b:"Learn the complete portfolio. Identify your 3 favourite products to start with."},
+      {d:"Day 4–7",ico:"🎯",t:"Choose Your Vertical",b:"Decide which market you want to specialise in first."},
+      {d:"Week 2",ico:"📞",t:"First Contacts",b:"5 exploratory calls with no sales objective. Just listen and learn."},
+      {d:"Week 3",ico:"📋",t:"First Proposal",b:"Prepare a combo proposal for your best prospect."},
+      {d:"Month 2",ico:"🏆",t:"First Close",b:"With an active pipeline, the first close arrives. Momentum starts here."},
+    ],
+    princs:[
+      {ico:"🎯",t:"Specialise",d:"One market first. Depth before breadth."},
+      {ico:"🤝",t:"Relationship first",d:"Today's trust is tomorrow's commission."},
+      {ico:"📊",t:"Talk with data",d:"ROI and success cases close doors."},
+      {ico:"🔗",t:"Think in combos",d:"Two products together are worth more than two separate ones."},
+    ],
+    m_lines:["Every gym you equip better improves the lives of its members.","Every software you implement turns data into smarter decisions.","Every solution you recommend builds your reputation as a sector expert.","Your success and your clients' success are the same thing."],
+  },
+  de: {
+    welcome_badge:"WILLKOMMEN IM TEAM",
+    hero_line1:"Du stehst kurz davor,", hero_line2:"die Zukunft", hero_line3:"des Fitness zu verkaufen",
+    hero_desc:"Dieses System gibt dir alles, was du brauchst, um FitLink Global mit Autorität, Vertrauen und Ergebnissen zu vertreten. Kein Katalog — ein Wettbewerbsvorteil.",
+    pill1:"20+ Partner", pill2:"4 Kontinente", pill3:"Hardware · Software · Design",
+    stat1:"Partner", stat2:"Länder", stat3:"Chance",
+    scroll_hint:"Wischen zum Starten",
+    story_tag:"DIE GESCHICHTE", story_title:"Wir sind kein Distributor. Wir sind ein Ökosystem.",
+    story_desc:"FitLink operiert von Berlin aus und verbindet die besten Fitnessprodukte der Welt mit Betreibern in DACH, Spanien und Lateinamerika.",
+    quote:""Fitness ist nicht nur eine Industrie. Es ist der Spiegel, in dem die Gesellschaft ihre Werte von Gesundheit, Langlebigkeit und Wohlbefinden widerspiegelt."",
+    port_tag:"DAS PORTFOLIO", port_title:"Jedes Produkt, eine Chance.",
+    port_desc:"Tippe auf einen Partner für das vollständige Profil: Schlüsselprodukte, Verkaufsargumente und empfohlene Kombinationen.",
+    port_note:"Das Portfolio wächst ständig. Wiederverkäufer erhalten frühzeitigen Zugang zu neuen Produkten.",
+    strat_tag:"VERKAUFSSTRATEGIEN", strat_title:"Es gibt nicht einen Weg zu gewinnen. Es gibt fünf.",
+    strat_desc:"Jede Strategie hat ihr eigenes Playbook. Antippen zum Erweitern.",
+    road_tag:"DEIN WEG", road_title:"Die ersten 60 Tage verändern alles.",
+    man_tag:"DAS MANIFEST", man_t1:"Du bist kein Verkäufer.", man_t2:"Du bist ein", man_t3:"Architekt", man_t4:"von Fitnessunternehmen.",
+    man_quote:""Der globale Fitness- und Wellnessmarkt überschreitet 5 Billionen Dollar. Das Fenster zur Positionierung als Marktführer steht jetzt offen."",
+    mkt1:"Hauptmarkt", mkt2:"Aktive Expansion", mkt3:"FitLink Vision",
+    cta_tag:"NÄCHSTER SCHRITT", cta_ttl:"Onboarding endet. Arbeit beginnt.",
+    cta_dsc:"Komme wann immer nötig zurück. Erkunde das Portfolio, übe deine Verkaufsargumente und kontaktiere uns bei deinem ersten qualifizierten Lead.",
+    nav_prev:"← Zurück", nav_next:"Weiter →",
+    sec_names:["Willkommen","Die Geschichte","Portfolio","Strategien","Dein Weg","Manifest"],
+    cat_hw:"Hardware", cat_sw:"Software", cat_sv:"Services",
+    modal_desc:"BESCHREIBUNG", modal_ideal:"IDEALER KUNDE", modal_pitch:"DEIN VERKAUFSARGUMENT",
+    modal_prods:"HAUPTPRODUKTE", modal_obj:"HÄUFIGE EINWÄNDE", modal_combo:"EMPFOHLENE KOMBINATION",
+    swipe_hint:"Nach oben wischen für mehr",
+    tl:[
+      {y:"DER URSPRUNG",t:"Eine Marktlücke",b:"FitLink entstand aus der Beobachtung, dass dem globalen Fitnesssektor eine echte Brücke zwischen technologischer Innovation und Geschäftsbetreibern fehlte."},
+      {y:"DIE VISION",t:"Mehr als Distribution",b:"Von Anfang an positionierte sich FitLink als strategischer Partner. Wir verkaufen keine Produkte: Wir verbinden Lösungen mit echten Problemen."},
+      {y:"DAS NETZWERK",t:"20+ erstklassige Partner",b:"Ein sorgfältig ausgewähltes Portfolio: Spitzenhardware, Software die verwertbare Daten generiert, und Services die Räume in Erlebnisse verwandeln."},
+      {y:"HEUTE",t:"Wo du einsteigst",b:"FitLink operiert in DACH, Spanien und Lateinamerika mit einem Händlernetz das die Wirkung multipliziert. Dein Erfolg ist unser Erfolg."},
+    ],
+    strats:[
+      {ico:"🔗",ttl:"Die Kombinations-Strategie",sub:"Hardware + Software = Maximale Bindung",badge:"HOHER ROI",desc:"Verkaufe nie nur Hardware oder nur Software. Die Kombination schafft positive Abhängigkeit und erhöht das Durchschnittsticket um das 2–3-Fache.",steps:["Identifiziere den Hauptschmerzpunkt des Kunden","Schlage die Hardware vor, die das sichtbare Problem löst","Füge die Software hinzu, die es potenziert","Präsentiere den kombinierten ROI als eine einzige Investition"],ex:"Wiemspro + Harbiz + Lemin = Schlüsselfertiges EMS-Center"},
+      {ico:"🎯",ttl:"Die Vertikal-Strategie",sub:"Spezialisierung nach Kundentyp",badge:"EMPFEHLUNGEN",desc:"Beherrsche eine Nische, bevor du expandierst. Spezialisierung erzeugt natürliche Weiterempfehlungen.",steps:["Wähle eine Nische: Physio, Wellness, Boutique, Corporate","Lerne die spezifische Sprache der Branche","Baue Erfolgsbeispiele in dieser Nische auf","Nutze jeden Kunden als Referenz für den nächsten"],ex:"Physiotherapie: BASI + CUBE Sports + SelfLoops = Vollständige Kliniiklösung"},
+      {ico:"💎",ttl:"Die Premium-Strategie",sub:"Verkaufe das Erlebnis, nicht das Produkt",badge:"HOHES TICKET",desc:"Die besten Kunden kaufen eine Vision. Präsentiere FitLink als strategische Beratung.",steps:["Öffne mit Fragen zum Projekt, nicht zum Budget","Entwirf ein maßgeschneidertes Angebot mit 3–5 Produkten","Inkludiere immer Mironova bei Eröffnungsprojekten","Verhandle Pakete, niemals Einzelprodukte"],ex:"5*-Hotel: Sparkfield + ICAROS + POOLBIKING + Mironova = Einzigartiges Wellness-Erlebnis"},
+      {ico:"📱",ttl:"Die SaaS-First-Strategie",sub:"Beginne mit Software, skaliere mit Hardware",badge:"LANGFRISTIG",desc:"Software kommt leicht rein, baut Beziehungen, schafft Vertrauen. Hardware folgt danach.",steps:["Beginne mit Harbiz oder WizFit AI","Zeige schnell Wert mit einer Demo","Identifiziere Lücken im physischen Bereich","Schlage Equipment als natürliches Upgrade vor"],ex:"Harbiz → WizFit AI → Bodytone = 3-Jahres-Beziehung"},
+      {ico:"⚡",ttl:"Die Dringlichkeits-Strategie",sub:"Der Markt wartet nicht",badge:"SCHNELLER ABSCHLUSS",desc:"Schaffe echte Dringlichkeit mit realen Marktdaten — kein künstlicher Druck.",steps:["Bring Daten: 'Der EMS-Markt wächst jährlich X% in DACH'","Zeige die Kosten des Nicht-Entscheidens auf","Schlage einen risikoarmen Piloten vor","Definiere eine klare Deadline"],ex:"ROOK: 'Dein Konkurrent integriert bereits Wearables. Jeder Monat ohne Daten ist verlorener Marktanteil'"},
+    ],
+    rm:[
+      {d:"Tag 1–3",ico:"📚",t:"Produkt-Immersion",b:"Lerne das komplette Portfolio. Identifiziere deine 3 Lieblingsprodukte zum Starten."},
+      {d:"Tag 4–7",ico:"🎯",t:"Wähle deine Nische",b:"Entscheide, in welchem Markt du dich zuerst spezialisieren möchtest."},
+      {d:"Woche 2",ico:"📞",t:"Erste Kontakte",b:"5 Erkundungsanrufe ohne Verkaufsziel. Nur zuhören und lernen."},
+      {d:"Woche 3",ico:"📋",t:"Erster Vorschlag",b:"Bereite ein Kombiangebot für deinen besten Interessenten vor."},
+      {d:"Monat 2",ico:"🏆",t:"Erster Abschluss",b:"Mit aktivem Pipeline kommt der erste Abschluss. Der Schwung beginnt hier."},
+    ],
+    princs:[
+      {ico:"🎯",t:"Spezialisierung",d:"Ein Markt zuerst. Tiefe vor Breite."},
+      {ico:"🤝",t:"Beziehung zuerst",d:"Das heutige Vertrauen ist die morgige Provision."},
+      {ico:"📊",t:"Mit Daten sprechen",d:"ROI und Erfolgsbeispiele schließen Türen."},
+      {ico:"🔗",t:"In Kombis denken",d:"Zwei Produkte zusammen sind mehr wert als zwei getrennte."},
+    ],
+    m_lines:["Jedes Fitnessstudio, das du besser ausstattest, verbessert das Leben seiner Mitglieder.","Jede Software, die du implementierst, verwandelt Daten in intelligentere Entscheidungen.","Jede Lösung, die du empfiehlst, baut deinen Ruf als Branchenexperte auf.","Dein Erfolg und der Erfolg deiner Kunden sind ein und dasselbe."],
+  }
 };
 
-const STRATEGIES = [
-  {icon:"🔗",title:"La Estrategia del Combo",subtitle:"Hardware + Software = Retención máxima",badge:"ALTO ROI",desc:"Nunca vendas solo hardware o solo software. El combo crea dependencia positiva y aumenta el ticket promedio 2–3x.",steps:["Identifica el pain principal del cliente (gestión, resultados, diferenciación)","Propón el hardware que resuelve el problema visible","Añade el software que lo potencia y digitaliza","Presenta el ROI combinado como una sola inversión"],example:"Wiemspro (EMS) + Harbiz (gestión) + Lemin (analytics) = Centro EMS llave en mano"},
-  {icon:"🎯",title:"La Estrategia Vertical",subtitle:"Especialización por tipo de cliente",badge:"REFERIDOS",desc:"Domina un vertical antes de expandirte. La especialización genera referidos naturales y posicionamiento de autoridad.",steps:["Elige un vertical: fisioterapia, wellness, boutique fitness, corporativo","Aprende el lenguaje específico del sector","Construye casos de éxito en ese vertical","Usa cada cliente como referencia para el siguiente"],example:"Fisioterapia: BASI + CUBE Sports + SelfLoops = Solución clínica completa"},
-  {icon:"💎",title:"La Estrategia Premium",subtitle:"Vende la experiencia, no el producto",badge:"TICKET ALTO",desc:"Los mejores clientes compran visión, no catálogos. Presenta FitLink como asesoría estratégica, no como distribuidora.",steps:["Abre con preguntas sobre el proyecto, no sobre el presupuesto","Diseña una propuesta a medida con 3–5 productos complementarios","Incluye siempre Mironova (diseño) en proyectos de apertura","Negocia paquetes, nunca productos sueltos"],example:"Hotel 5*: Sparkfield + ICAROS + POOLBIKING + Mironova = Wellness Experience única"},
-  {icon:"📱",title:"La Estrategia SaaS First",subtitle:"Empieza con software, escala con hardware",badge:"RELACIÓN LARGA",desc:"El software entra fácil, crea relación, genera confianza. El hardware viene después. El software es la puerta.",steps:["Empieza la conversación con Harbiz o WizFit AI","Demuestra valor rápido con una prueba o demo funcional","Identifica carencias en el espacio físico durante el proceso","Propón el equipamiento como upgrade natural"],example:"Harbiz (gestión) → diagnóstico → WizFit AI (coaching) → Bodytone (equipamiento faltante)"},
-  {icon:"⚡",title:"La Estrategia de Urgencia",subtitle:"El mercado no espera",badge:"CIERRE RÁPIDO",desc:"Usa datos de mercado y tendencias para crear urgencia genuina. No urgencia artificial — urgencia real basada en oportunidad.",steps:["Lleva datos: 'El mercado EMS en DACH crece X% anual'","Señala el costo de no decidir: competidores que ya adoptaron","Propón un piloto de bajo riesgo para comenzar","Define un deadline claro ligado a disponibilidad o precio"],example:"ROOK: 'Tu competidor ya integra wearables. Cada mes sin datos es market share perdido'"},
-];
+/* ═══════════════════════════════════════════════
+   PARTNER DATA (full, with products & objections)
+═══════════════════════════════════════════════ */
+const PARTNERS = {
+  hardware:[
+    {
+      id:"trackbar", emoji:"📊", tag:"Performance Tracking",
+      name:"Trackbar", tagline:"Machine digitization in real time",
+      taglineEs:"Digitalización de máquinas en tiempo real",
+      taglineDe:"Maschinendigitalisierung in Echtzeit",
+      descEs:"Trackbar convierte cualquier máquina de gimnasio en un dispositivo inteligente. Registra métricas de entrenamiento en tiempo real y las convierte en datos accionables para el operador.",
+      descEn:"Trackbar turns any gym machine into a smart device. It records training metrics in real time and converts them into actionable data for the operator.",
+      descDe:"Trackbar verwandelt jede Fitnessmaschine in ein intelligentes Gerät. Es erfasst Trainingsmetriken in Echtzeit.",
+      idealEs:["Gimnasios premium","Centros de alto rendimiento","Cadenas de fitness"],
+      idealEn:["Premium gyms","High-performance centers","Fitness chains"],
+      idealDe:["Premium-Studios","Hochleistungszentren","Fitnessketten"],
+      pitchEs:"Tus miembros quieren datos. Trackbar los convierte en resultados visibles que fidelizan y diferencian.",
+      pitchEn:"Your members want data. Trackbar turns them into visible results that build loyalty and differentiation.",
+      pitchDe:"Deine Mitglieder wollen Daten. Trackbar verwandelt sie in sichtbare Ergebnisse.",
+      products:[
+        {ico:"⚡",name:"Trackbar Sensor",desc:"Sensor universal adaptable a cualquier máquina. Instalación en minutos."},
+        {ico:"📱",name:"Trackbar App",desc:"Dashboard en tiempo real para miembros y operadores."},
+        {ico:"📈",name:"Trackbar Analytics",desc:"Informes avanzados de uso, rendimiento y retención."},
+      ],
+      objEs:[{q:"'Ya tenemos nuestro sistema de gestión'",a:"Trackbar no reemplaza tu gestión — se integra con ella y añade la capa de datos de uso de máquinas que ningún otro sistema tiene."}],
+      comboEs:"Trackbar + SelfLoops + Harbiz = El gimnasio más orientado a datos de tu ciudad",
+    },
+    {
+      id:"mindzmove", emoji:"🧠", tag:"Neuro-Fitness",
+      name:"Mindzmove", tagline:"Where movement meets the mind",
+      taglineEs:"Donde el movimiento se encuentra con la mente",
+      taglineDe:"Wo Bewegung auf den Geist trifft",
+      descEs:"Tecnología que une el entrenamiento físico con el bienestar cognitivo y emocional. Diferenciador poderoso para centros de wellness de alto valor.",
+      descEn:"Technology that unites physical training with cognitive and emotional wellbeing. A powerful differentiator for high-value wellness centers.",
+      descDe:"Technologie die körperliches Training mit kognitivem und emotionalem Wohlbefinden verbindet.",
+      idealEs:["Wellness centers","Clínicas de salud","Spas corporativos"],
+      idealEn:["Wellness centers","Health clinics","Corporate spas"],
+      idealDe:["Wellness-Center","Gesundheitskliniken","Unternehmens-Spas"],
+      pitchEs:"El mercado del bienestar mental explota. Mindzmove es la puerta de entrada para operadores que quieren liderar esa tendencia.",
+      pitchEn:"The mental wellness market is exploding. Mindzmove is the gateway for operators who want to lead that trend.",
+      pitchDe:"Der Markt für mentales Wohlbefinden explodiert. Mindzmove ist das Eintrittstor.",
+      products:[
+        {ico:"🎯",name:"Mindzmove Motion",desc:"Sistema de movimiento guiado con retroalimentación emocional en tiempo real."},
+        {ico:"🌿",name:"Mindzmove Breathe",desc:"Protocolo de respiración y movimiento para reducción del estrés."},
+      ],
+      objEs:[{q:"'Nuestros clientes vienen a entrenar, no a meditar'",a:"Mindzmove no es meditación — es una capa de bienestar que hace el entrenamiento más efectivo y reduce el abandono un 30%."}],
+      comboEs:"Mindzmove + Sparkfield + Harbiz = Centro de bienestar mental-físico completo",
+    },
+    {
+      id:"basi", emoji:"🏋️", tag:"Pilates & Rehab",
+      name:"BASI Systems", tagline:"The world standard in Pilates equipment",
+      taglineEs:"El estándar mundial en equipamiento Pilates",
+      taglineDe:"Der Weltstandard in Pilates-Equipment",
+      descEs:"Equipamiento Pilates de gama alta con respaldo pedagógico y certificación internacional. Referente global en reformers y sistemas de rehabilitación con más de 30 años de historia.",
+      descEn:"High-end Pilates equipment with pedagogical backing and international certification. Global reference in reformers and rehabilitation systems with over 30 years of history.",
+      descDe:"Hochwertiges Pilates-Equipment mit pädagogischer Unterstützung und internationaler Zertifizierung.",
+      idealEs:["Estudios Pilates","Clínicas fisioterapia","Centros médicos premium"],
+      idealEn:["Pilates studios","Physiotherapy clinics","Premium medical centers"],
+      idealDe:["Pilates-Studios","Physiotherapiekliniken","Premium-Medizinzentren"],
+      pitchEs:"BASI es la marca que los instructores certificados exigen. Vender BASI es vender prestigio — el cliente ya lo conoce y lo quiere.",
+      pitchEn:"BASI is the brand certified instructors demand. Selling BASI means selling prestige — clients already know and want it.",
+      pitchDe:"BASI ist die Marke, die zertifizierte Instruktoren verlangen. BASI zu verkaufen bedeutet Prestige zu verkaufen.",
+      products:[
+        {ico:"🔧",name:"BASI Reformer",desc:"El reformer más reconocido a nivel mundial. Múltiples configuraciones."},
+        {ico:"🏛️",name:"BASI F2 System",desc:"Sistema de entrenamiento funcional integrado con filosofía Pilates."},
+        {ico:"🪑",name:"BASI Cadillac",desc:"Equipo de rehabilitación y entrenamiento avanzado. Estándar en clínicas de alto nivel."},
+        {ico:"📚",name:"BASI Education",desc:"Programa de certificación internacional — añade valor y genera fidelidad."},
+      ],
+      objEs:[{q:"'Es demasiado caro para mis clientes'",a:"El cliente de BASI no busca precio — busca calidad certificada. Si tu cliente habla de precio, aún no es el cliente de BASI."}],
+      comboEs:"BASI + Mironova + Harbiz = Estudio Pilates premium llave en mano",
+    },
+    {
+      id:"wiemspro", emoji:"⚡", tag:"EMS Technology",
+      name:"Wiemspro", tagline:"Elite EMS — results in 20 minutes",
+      taglineEs:"EMS de élite — resultados en 20 minutos",
+      taglineDe:"Elite-EMS — Ergebnisse in 20 Minuten",
+      descEs:"Sistemas EMS profesionales inalámbricos presentes en 77 países con certificación FDA y CE. El modelo de negocio de menor espacio y mayor facturación por m² del sector.",
+      descEn:"Professional wireless EMS systems present in 77 countries with FDA and CE certification. The fitness business model with the lowest space and highest revenue per m².",
+      descDe:"Professionelle kabellose EMS-Systeme in 77 Ländern mit FDA- und CE-Zertifizierung.",
+      idealEs:["Boutique fitness EMS","Franquicias","Personal trainers premium"],
+      idealEn:["EMS boutique studios","Franchises","Premium personal trainers"],
+      idealDe:["EMS-Boutique-Studios","Franchises","Premium-Personal-Trainer"],
+      pitchEs:"20 minutos equivalen a 2 horas de entrenamiento. El modelo EMS tiene el ROI por m² más alto del sector — y Wiemspro domina el mercado.",
+      pitchEn:"20 minutes equals 2 hours of training. The EMS model has the highest ROI per m² in the sector — and Wiemspro leads the market.",
+      pitchDe:"20 Minuten entsprechen 2 Stunden Training. Das EMS-Modell hat den höchsten ROI pro m² der Branche.",
+      products:[
+        {ico:"🦺",name:"Wiemspro Suit Pro",desc:"Traje EMS inalámbrico de nueva generación. Máxima libertad de movimiento."},
+        {ico:"📡",name:"Wiemspro Control",desc:"Sistema de control centralizado para gestionar múltiples suits simultáneamente."},
+        {ico:"📊",name:"Wiemspro Connect",desc:"App de seguimiento de rendimiento y planificación de entrenamientos EMS."},
+      ],
+      objEs:[{q:"'El EMS ya está muy explotado en mi ciudad'",a:"Wiemspro tiene la mayor tasa de retención del sector EMS (82%) precisamente porque el producto es superior. Más competencia = más necesidad del mejor."}],
+      comboEs:"Wiemspro + Harbiz + Lemin = Centro EMS de alto rendimiento con gestión profesional",
+    },
+    {
+      id:"olive", emoji:"🚴", tag:"Indoor Cycling",
+      name:"O'live Fitness", tagline:"Premium indoor cycling redefined",
+      taglineEs:"Ciclismo indoor premium redefinido",
+      taglineDe:"Premium Indoor-Cycling neu definiert",
+      descEs:"Línea premium de bicicletas de indoor cycling con diseño italiano y tecnología de alto rendimiento. La elección de los estudios de cycling más exclusivos del mundo.",
+      descEn:"Premium indoor cycling bikes with Italian design and high-performance technology. The choice of the world's most exclusive cycling studios.",
+      descDe:"Premium Indoor-Cycling-Fahrräder mit italienischem Design und Hochleistungstechnologie.",
+      idealEs:["Estudios de cycling boutique","Gimnasios premium","Hoteles 5*"],
+      idealEn:["Boutique cycling studios","Premium gyms","5* hotels"],
+      idealDe:["Boutique-Cycling-Studios","Premium-Fitnessstudios","5*-Hotels"],
+      pitchEs:"Cuando el espacio y el branding son parte del producto, O'live es la única opción que a la vez rinde y se ve increíble.",
+      pitchEn:"When space and branding are part of the product, O'live is the only option that both performs and looks incredible.",
+      pitchDe:"Wenn Raum und Branding Teil des Produkts sind, ist O'live die einzige Option.",
+      products:[
+        {ico:"🚲",name:"O'live Bike Pro",desc:"Bicicleta de alto rendimiento con transmisión magnética silenciosa."},
+        {ico:"📺",name:"O'live Connect",desc:"Pantalla integrada con clases en vivo y métricas en tiempo real."},
+      ],
+      objEs:[{q:"'Hay bicicletas más baratas en el mercado'",a:"Las bicicletas más baratas duran 3 años. O'live dura 10. El costo por año de vida útil es menor — y la experiencia del cliente es incomparable."}],
+      comboEs:"O'live + SelfLoops + Mironova = Sala de cycling que compite con Peloton",
+    },
+    {
+      id:"cube", emoji:"🎯", tag:"Functional Training",
+      name:"CUBE Sports", tagline:"Modular functional training — German engineering",
+      taglineEs:"Entrenamiento funcional modular — ingeniería alemana",
+      taglineDe:"Modulares funktionales Training — Deutsche Ingenieurskunst",
+      descEs:"Sistemas de entrenamiento funcional modulares y versátiles fabricados en Alemania. Adaptables a múltiples espacios, desde fisioterapia hasta entrenamiento funcional avanzado.",
+      descEn:"Modular and versatile functional training systems made in Germany. Adaptable to multiple spaces, from physiotherapy to advanced functional training.",
+      descDe:"Modulare und vielseitige Funktionstrainings-Systeme aus Deutschland.",
+      idealEs:["Fisioterapia","Centros de rehabilitación","Gimnasios funcionales"],
+      idealEn:["Physiotherapy","Rehabilitation centers","Functional gyms"],
+      idealDe:["Physiotherapie","Rehabilitationszentren","Funktionelle Fitnessstudios"],
+      pitchEs:"Fabricación alemana significa garantía, precisión y durabilidad que los clientes valoran. CUBE vende confianza además de equipamiento.",
+      pitchEn:"German manufacturing means warranty, precision and durability that clients value. CUBE sells trust in addition to equipment.",
+      pitchDe:"Deutsche Fertigung bedeutet Garantie, Präzision und Langlebigkeit.",
+      products:[
+        {ico:"🏗️",name:"CUBE Rig",desc:"Sistema de rig modular con más de 200 accesorios compatibles."},
+        {ico:"⚖️",name:"CUBE Balance",desc:"Plataformas de equilibrio y propiocepción para rehabilitación."},
+        {ico:"🔩",name:"CUBE Wall",desc:"Sistema de pared multifuncional. Máximo uso del espacio vertical."},
+      ],
+      objEs:[{q:"'El presupuesto es limitado, prefiero algo más económico'",a:"CUBE tiene una gama entry que permite empezar con una inversión menor y ampliar modularmente. No es todo o nada."}],
+      comboEs:"CUBE Sports + BASI + SelfLoops = Centro de fisioterapia y rehabilitación premium",
+    },
+    {
+      id:"onnafit", emoji:"💪", tag:"EMS Aesthetics",
+      name:"Onnafit", tagline:"EMS body contouring — beauty meets fitness",
+      taglineEs:"EMS body contouring — belleza y fitness juntos",
+      taglineDe:"EMS Body Contouring — Schönheit trifft Fitness",
+      descEs:"Sistema EMS especializado en estética corporal y contouring. Permite a salones de belleza y centros estéticos ofrecer servicios de alto valor con tecnología EMS.",
+      descEn:"EMS system specialised in body aesthetics and contouring. Allows beauty salons and aesthetic centers to offer high-value services with EMS technology.",
+      descDe:"EMS-System spezialisiert auf Körperästhetik und Konturierung.",
+      idealEs:["Centros estéticos","Spas","Salones de belleza premium"],
+      idealEn:["Aesthetic centers","Spas","Premium beauty salons"],
+      idealDe:["Ästhetikzentren","Spas","Premium-Schönheitssalons"],
+      pitchEs:"Onnafit abre el mercado estético al EMS — un mercado completamente diferente al fitness tradicional con ticket promedio mucho más alto.",
+      pitchEn:"Onnafit opens the aesthetic market to EMS — a completely different market from traditional fitness with a much higher average ticket.",
+      pitchDe:"Onnafit öffnet den ästhetischen Markt für EMS.",
+      products:[
+        {ico:"✨",name:"Onnafit Body Suit",desc:"Traje EMS optimizado para protocolos de body contouring."},
+        {ico:"📋",name:"Onnafit Protocol",desc:"Protocolos de tratamiento certificados para diferentes objetivos estéticos."},
+      ],
+      objEs:[{q:"'Mis clientas no quieren entrenar, quieren tratamientos estéticos'",a:"Exactamente — Onnafit es un tratamiento estético, no una clase de fitness. No tienen que 'entrenar', solo relajarse y dejar que la tecnología trabaje."}],
+      comboEs:"Onnafit + Sparkfield (sauna infrarrojo) + Harbiz = Centro de estética de alta gama",
+    },
+    {
+      id:"poolbiking", emoji:"🏊", tag:"Aquatic Fitness",
+      name:"POOLBIKING", tagline:"Aquatic cycling — joint-friendly high intensity",
+      taglineEs:"Ciclismo acuático — alta intensidad sin impacto",
+      taglineDe:"Aqua-Cycling — gelenkschonende Hochintensität",
+      descEs:"Bicicletas especializadas para entrenamiento en piscina. Máxima intensidad cardiovascular con mínimo impacto articular. Nicho de alto crecimiento con muy poca competencia.",
+      descEn:"Specialised bikes for pool training. Maximum cardiovascular intensity with minimal joint impact. High-growth niche with very little competition.",
+      descDe:"Spezialisierte Fahrräder für das Training im Pool. Maximale kardiovaskuläre Intensität mit minimalem Gelenkstress.",
+      idealEs:["Spas con piscina","Centros acuáticos","Hoteles resort"],
+      idealEn:["Spas with pools","Aquatic centers","Resort hotels"],
+      idealDe:["Spas mit Pool","Aquazentren","Resort-Hotels"],
+      pitchEs:"Mercado de nicho = precios premium y prácticamente cero competencia directa. El primero que lo instala en su ciudad domina ese segmento.",
+      pitchEn:"Niche market = premium prices and virtually zero direct competition. The first to install it in their city dominates that segment.",
+      pitchDe:"Nischenmarkt = Premium-Preise und praktisch null direkte Konkurrenz.",
+      products:[
+        {ico:"🚲",name:"POOLBIKING Aquabike",desc:"Bicicleta acuática de acero inoxidable. Resistencia al cloro certificada."},
+        {ico:"🎵",name:"POOLBIKING Connect",desc:"Sistema de audio subacuático para clases grupales inmersivas."},
+      ],
+      objEs:[{q:"'Tenemos piscina pero nunca hemos ofrecido clases de este tipo'",a:"Ese es exactamente el punto. POOLBIKING no necesita instructores especializados — los protocolos vienen incluidos. El espacio ya lo tienes."}],
+      comboEs:"POOLBIKING + Sparkfield + Mironova = Experiencia wellness acuática única",
+    },
+    {
+      id:"icaros", emoji:"🕹️", tag:"VR Fitness",
+      name:"ICAROS", tagline:"Virtual reality meets functional movement",
+      taglineEs:"La realidad virtual se une al movimiento funcional",
+      taglineDe:"Virtual Reality trifft funktionelle Bewegung",
+      descEs:"Sistema de fitness en realidad virtual que combina gamificación con entrenamiento funcional real. Mejora el equilibrio, el core y la coordinación mientras el usuario vive una experiencia inmersiva.",
+      descEn:"Virtual reality fitness system that combines gamification with real functional training. Improves balance, core and coordination while the user lives an immersive experience.",
+      descDe:"Virtual-Reality-Fitness-System das Gamification mit echtem Funktionstraining kombiniert.",
+      idealEs:["Centros de rehabilitación","Gimnasios premium","Centros de alto rendimiento"],
+      idealEn:["Rehabilitation centers","Premium gyms","High-performance centers"],
+      idealDe:["Rehabilitationszentren","Premium-Fitnessstudios","Hochleistungszentren"],
+      pitchEs:"El WOW factor definitivo. Las personas entran por curiosidad y se quedan por la experiencia. Es el imán de captación más efectivo del mercado.",
+      pitchEn:"The ultimate WOW factor. People come in out of curiosity and stay for the experience. It's the most effective acquisition magnet in the market.",
+      pitchDe:"Der ultimative WOW-Faktor. Menschen kommen aus Neugier und bleiben wegen der Erfahrung.",
+      products:[
+        {ico:"🥽",name:"ICAROS Orb",desc:"Plataforma de movimiento 360° con casco VR integrado."},
+        {ico:"🎮",name:"ICAROS Games",desc:"Biblioteca de experiencias y juegos terapéuticos y recreativos."},
+        {ico:"🏥",name:"ICAROS Medical",desc:"Versión certificada para rehabilitación neurológica y motora."},
+      ],
+      objEs:[{q:"'La realidad virtual es una moda'",a:"Los hospitales y centros de rehabilitación llevan 10 años usando VR con resultados clínicos probados. ICAROS Medical está certificado — no es entretenimiento, es terapia."}],
+      comboEs:"ICAROS + Trackbar + Harbiz = Experiencia de entrenamiento sin igual",
+    },
+    {
+      id:"sparkfield", emoji:"🔥", tag:"Adaptive Strength",
+      name:"Sparkfield", tagline:"Guided adaptive strength — space-saving",
+      taglineEs:"Fuerza adaptativa guiada — compacto y preciso",
+      taglineDe:"Geführte adaptive Kraft — platzsparend und präzise",
+      descEs:"Sistema de fuerza adaptativa guiada con control de carga por software. Compacto, preciso y con datos de rendimiento en tiempo real. Pensado para espacios reducidos de alto valor.",
+      descEn:"Guided adaptive strength system with software-controlled load. Compact, precise and with real-time performance data. Designed for high-value compact spaces.",
+      descDe:"Geführtes adaptives Kraftsystem mit softwaregesteuerter Last. Kompakt, präzise und mit Echtzeit-Leistungsdaten.",
+      idealEs:["Wellness centers premium","Fisioterapia","Hoteles de lujo"],
+      idealEn:["Premium wellness centers","Physiotherapy","Luxury hotels"],
+      idealDe:["Premium-Wellness-Center","Physiotherapie","Luxushotels"],
+      pitchEs:"Sparkfield redefine lo que se puede hacer en 15 metros cuadrados. Recovery y fuerza en un solo sistema que se ve como obra de arte.",
+      pitchEn:"Sparkfield redefines what you can do in 15 square metres. Recovery and strength in one system that looks like a work of art.",
+      pitchDe:"Sparkfield definiert neu, was man auf 15 Quadratmetern tun kann.",
+      products:[
+        {ico:"🏋️",name:"Sparkfield Pro",desc:"Máquina de fuerza con resistencia electromagnética adaptativa."},
+        {ico:"📊",name:"Sparkfield Connect",desc:"Software de seguimiento de fuerza, progresión y recuperación."},
+      ],
+      objEs:[{q:"'Ya tenemos maquinaria de fuerza'",a:"Sparkfield no reemplaza tu sala de pesas — es el equipo premium de recuperación y fuerza guiada que va en el área VIP o el wellness floor que hoy no tienes."}],
+      comboEs:"Sparkfield + Mindzmove + Harbiz = Wellness floor premium de alto ticket",
+    },
+    {
+      id:"bodytone", emoji:"🏆", tag:"Full Gym Equipment",
+      name:"Bodytone", tagline:"Professional gym equipment — 25 years · 80+ countries",
+      taglineEs:"Equipamiento profesional — 25 años · 80+ países",
+      taglineDe:"Professionelles Gym-Equipment — 25 Jahre · 80+ Länder",
+      descEs:"Fabricante español con 25 años de experiencia, presente en más de 80 países. Línea completa de cardiovascular, musculación y ciclismo indoor con fabricación industrial propia y servicio llave en mano.",
+      descEn:"Spanish manufacturer with 25 years of experience, present in more than 80 countries. Complete cardio, strength and indoor cycling line with its own industrial production and turnkey service.",
+      descDe:"Spanischer Hersteller mit 25 Jahren Erfahrung, präsent in mehr als 80 Ländern. Komplette Kardio-, Kraft- und Indoor-Cycling-Linie.",
+      idealEs:["Nuevos gimnasios","Centros municipales","Hoteles y hospitality","Cadenas en expansión"],
+      idealEn:["New gyms","Municipal centers","Hotels & hospitality","Expanding chains"],
+      idealDe:["Neue Fitnessstudios","Kommunale Zentren","Hotels & Hospitality","Expandierende Ketten"],
+      pitchEs:"Bodytone es la única marca con la que puedes equipar un gimnasio completo, de cero, con un solo interlocutor, diseño 3D incluido y garantía industrial.",
+      pitchEn:"Bodytone is the only brand with which you can equip a complete gym from scratch, with a single contact, 3D design included and industrial warranty.",
+      pitchDe:"Bodytone ist die einzige Marke, mit der Sie ein komplettes Fitnessstudio von Grund auf ausstatten können.",
+      products:[
+        {ico:"🏃",name:"Bodytone Cardio Line",desc:"Cintas, elípticas y bicis de alta gama con conectividad digital."},
+        {ico:"💪",name:"Bodytone Strength Line",desc:"300+ máquinas de musculación. Desde selector de pesas hasta funcional."},
+        {ico:"🚲",name:"Bodytone Cycling",desc:"Bicicletas de spinning compatibles con plataformas de coaching digital."},
+        {ico:"📐",name:"Bodytone 3D Design",desc:"Servicio de diseño 2D/3D del espacio antes de la instalación. Diferenciador único."},
+        {ico:"🔧",name:"Bodytone Turnkey",desc:"Desde consultoría hasta entrega e instalación. Un solo proveedor, cero fricción."},
+      ],
+      objEs:[
+        {q:"'Ya tengo proveedores de equipamiento'",a:"Bodytone no pide que los reemplaces. Pide una oportunidad en el próximo proyecto. Con diseño 3D gratuito y servicio llave en mano, la propuesta se vende sola."},
+        {q:"'Quiero marcas europeas reconocidas'",a:"Bodytone es la marca #1 en España y líder en Latinoamérica. Fabricación española con estándares europeos y presencia certificada en 80+ países."},
+      ],
+      comboEs:"Bodytone + Trackbar + Harbiz = Gimnasio completo digitalmente integrado desde día 1",
+    },
+  ],
+  software:[
+    {
+      id:"rook", emoji:"📡", tag:"Health Data API",
+      name:"ROOK", tagline:"The health data layer for any app",
+      taglineEs:"La capa de datos de salud para cualquier app",
+      taglineDe:"Die Gesundheitsdaten-Schicht für jede App",
+      descEs:"API que agrega datos de salud de wearables (Apple Watch, Garmin, Whoop, Oura…) y los conecta con cualquier aplicación. Infraestructura crítica para el ecosistema health-tech.",
+      descEn:"API that aggregates health data from wearables (Apple Watch, Garmin, Whoop, Oura…) and connects them to any application. Critical infrastructure for the health-tech ecosystem.",
+      descDe:"API die Gesundheitsdaten von Wearables aggregiert und mit jeder Anwendung verbindet.",
+      idealEs:["Apps de salud y fitness","Compañías de seguros","Plataformas corporativas de bienestar"],
+      idealEn:["Health & fitness apps","Insurance companies","Corporate wellness platforms"],
+      idealDe:["Gesundheits- und Fitness-Apps","Versicherungsunternehmen","Corporate-Wellness-Plattformen"],
+      pitchEs:"Si tienen una app y usuarios activos, necesitan ROOK. El argumento de venta se escribe solo: sin ROOK, sus datos de salud son islas.",
+      pitchEn:"If they have an app and active users, they need ROOK. The sales argument writes itself: without ROOK, their health data are islands.",
+      pitchDe:"Wenn sie eine App und aktive Nutzer haben, brauchen sie ROOK.",
+      products:[
+        {ico:"🔌",name:"ROOK Connect API",desc:"Integración con 40+ fuentes de datos de salud y wearables."},
+        {ico:"📊",name:"ROOK Analytics",desc:"Dashboard de datos de salud agregados para operadores."},
+        {ico:"🏢",name:"ROOK Enterprise",desc:"Solución para grandes corporaciones con gestión de datos de empleados."},
+      ],
+      objEs:[{q:"'Desarrollamos nuestra propia integración'",a:"ROOK te da 40 integraciones en semanas vs. 2 años de desarrollo. El costo de oportunidad de desarrollar in-house es enorme."}],
+      comboEs:"ROOK + WizFit AI + Harbiz = El ecosistema de datos de salud más completo del mercado",
+    },
+    {
+      id:"harbiz", emoji:"📱", tag:"Studio Management SaaS",
+      name:"Harbiz", tagline:"All-in-one SaaS for fitness professionals",
+      taglineEs:"SaaS todo-en-uno para profesionales del fitness",
+      taglineDe:"All-in-one SaaS für Fitness-Profis",
+      descEs:"Plataforma SaaS que gestiona membresías, pagos, reservas, planes de entrenamiento y comunicación con clientes. Diseñada específicamente para PTs, fisioterapeutas y estudios boutique.",
+      descEn:"SaaS platform that manages memberships, payments, bookings, training plans and client communication. Designed specifically for PTs, physiotherapists and boutique studios.",
+      descDe:"SaaS-Plattform für Mitgliedschaften, Zahlungen, Buchungen, Trainingspläne und Kundenkommunikation.",
+      idealEs:["Personal trainers","Fisioterapeutas","Estudios boutique","Pequeños y medianos gimnasios"],
+      idealEn:["Personal trainers","Physiotherapists","Boutique studios","Small & medium gyms"],
+      idealDe:["Personal Trainer","Physiotherapeuten","Boutique-Studios","Kleine und mittlere Fitnessstudios"],
+      pitchEs:"Cada negocio fitness sin sistema eficiente pierde dinero cada día — en tiempo, en cobros perdidos, en clientes que no regresan. Harbiz lo resuelve en 48 horas.",
+      pitchEn:"Every fitness business without an efficient system loses money every day — in time, missed payments, clients who don't return. Harbiz solves it in 48 hours.",
+      pitchDe:"Jedes Fitnessunternehmen ohne effizientes System verliert täglich Geld.",
+      products:[
+        {ico:"📅",name:"Harbiz Booking",desc:"Sistema de reservas y gestión de calendario para clases y sesiones individuales."},
+        {ico:"💳",name:"Harbiz Payments",desc:"Cobros automáticos, membresías y facturación integrada."},
+        {ico:"📋",name:"Harbiz Training",desc:"Creación y envío de planes de entrenamiento personalizados."},
+        {ico:"📲",name:"Harbiz App",desc:"App blanca con el branding del negocio para los clientes finales."},
+      ],
+      objEs:[{q:"'Ya usamos WhatsApp y Excel, nos funciona'",a:"Perfecto — eso significa que ya tienes la base. Harbiz hace lo mismo pero automatizado, cobrandote antes de que se olviden y con métricas reales de tu negocio."}],
+      comboEs:"Harbiz + WizFit AI + ROOK = La plataforma de gestión más avanzada del sector",
+    },
+    {
+      id:"wizfit", emoji:"🤖", tag:"AI Fitness Coaching",
+      name:"WizFit AI", tagline:"AI personalisation at scale for studios",
+      taglineEs:"Personalización IA a escala para estudios",
+      taglineDe:"KI-Personalisierung in großem Maßstab",
+      descEs:"Plataforma de coaching personalizado impulsada por IA que permite a entrenadores y estudios escalar la personalización sin escalar el equipo. Planes adaptativos, seguimiento automático.",
+      descEn:"AI-powered personalised coaching platform that allows trainers and studios to scale personalisation without scaling the team. Adaptive plans, automatic tracking.",
+      descDe:"KI-gestützte personalisierte Coaching-Plattform die es Trainern ermöglicht Personalisierung zu skalieren.",
+      idealEs:["Personal trainers con múltiples clientes","Estudios con programas grupales","Apps de fitness"],
+      idealEn:["PTs with multiple clients","Studios with group programs","Fitness apps"],
+      idealDe:["PTs mit mehreren Kunden","Studios mit Gruppenprogrammen","Fitness-Apps"],
+      pitchEs:"IA + fitness = el mercado que más crece en 2025. WizFit te posiciona como early mover antes de que sea mainstream.",
+      pitchEn:"AI + fitness = the fastest growing market in 2025. WizFit positions you as an early mover before it goes mainstream.",
+      pitchDe:"KI + Fitness = der am schnellsten wachsende Markt 2025.",
+      products:[
+        {ico:"🧬",name:"WizFit AI Engine",desc:"Motor de IA que genera planes de entrenamiento adaptativos basados en datos del usuario."},
+        {ico:"📊",name:"WizFit Dashboard",desc:"Panel del entrenador con vista de todos los clientes y alertas proactivas."},
+      ],
+      objEs:[{q:"'Mis clientes prefieren el trato personal, no la IA'",a:"WizFit no reemplaza al entrenador — lo potencia. El entrenador sigue siendo el héroe; la IA gestiona el 80% del trabajo administrativo para que pueda enfocarse en el 20% que importa."}],
+      comboEs:"WizFit AI + Harbiz + ROOK = El stack tecnológico del PT del futuro",
+    },
+    {
+      id:"selfloops", emoji:"🔄", tag:"Group Training Analytics",
+      name:"SelfLoops", tagline:"Data-driven group training for studios",
+      taglineEs:"Entrenamiento grupal basado en datos",
+      taglineDe:"Datengetriebenes Gruppentraining",
+      descEs:"Plataforma de entrenamiento grupal con analytics de rendimiento en tiempo real. Conecta wearables de los participantes y proyecta métricas durante la clase, motivando y gamificando.",
+      descEn:"Group training platform with real-time performance analytics. Connects participants' wearables and projects metrics during the class, motivating and gamifying.",
+      descDe:"Gruppentrainings-Plattform mit Echtzeit-Performance-Analytics.",
+      idealEs:["Estudios de group fitness","CrossFit boxes","Centros con clases colectivas"],
+      idealEn:["Group fitness studios","CrossFit boxes","Centers with group classes"],
+      idealDe:["Group-Fitness-Studios","CrossFit-Boxen","Zentren mit Gruppenklassen"],
+      pitchEs:"Los estudios con SelfLoops retienen un 35% más de miembros. La gamificación no es un gimmick — es retención.",
+      pitchEn:"Studios with SelfLoops retain 35% more members. Gamification isn't a gimmick — it's retention.",
+      pitchDe:"Studios mit SelfLoops behalten 35% mehr Mitglieder.",
+      products:[
+        {ico:"📺",name:"SelfLoops Live",desc:"Pantalla en sala con métricas en tiempo real de todos los participantes."},
+        {ico:"🏅",name:"SelfLoops Leaderboard",desc:"Rankings y desafíos entre miembros que impulsan la asistencia."},
+        {ico:"📈",name:"SelfLoops Reports",desc:"Informes de rendimiento individuales y de clase para instructores."},
+      ],
+      objEs:[{q:"'Nuestros clientes no quieren que sus datos sean públicos'",a:"SelfLoops tiene modo privado donde cada miembro elige qué mostrar. La mayoría opta por el ranking una vez que prueban la motivación que genera."}],
+      comboEs:"SelfLoops + O'live + Harbiz = El estudio de cycling más engagement de la ciudad",
+    },
+    {
+      id:"amalgama", emoji:"⚙️", tag:"Digital Consultancy",
+      name:"Amalgama", tagline:"Digital transformation for health & wellness",
+      taglineEs:"Transformación digital para salud y wellness",
+      taglineDe:"Digitale Transformation für Gesundheit & Wellness",
+      descEs:"Consultora digital especializada en el sector health-wellness. Desarrolla apps, webs y estrategias UX para empresas que quieren digitalizar su oferta.",
+      descEn:"Digital consultancy specialised in the health-wellness sector. Develops apps, websites and UX strategies for companies that want to digitalise their offer.",
+      descDe:"Digitale Unternehmensberatung spezialisiert auf den Health-Wellness-Sektor.",
+      idealEs:["Cadenas fitness en transformación digital","Marcas de equipamiento con app","Startups health-tech"],
+      idealEn:["Fitness chains in digital transformation","Equipment brands with app","Health-tech startups"],
+      idealDe:["Fitnessketten in der digitalen Transformation","Equipment-Marken mit App","Health-Tech-Startups"],
+      pitchEs:"El problema de transformación digital es universal en el sector. Amalgama es la solución que pocos conocen pero todos necesitan.",
+      pitchEn:"The digital transformation problem is universal in the sector. Amalgama is the solution few know about but everyone needs.",
+      pitchDe:"Das digitale Transformationsproblem ist universell im Sektor.",
+      products:[
+        {ico:"📱",name:"App Development",desc:"Desarrollo de apps nativas para iOS y Android para el sector fitness."},
+        {ico:"🎨",name:"UX/UI Design",desc:"Diseño de experiencia de usuario especializado en health y wellness."},
+        {ico:"🌐",name:"Web & Platform",desc:"Plataformas web para venta, comunidad y gestión de contenidos."},
+      ],
+      objEs:[{q:"'Ya tenemos un equipo tech interno'",a:"Amalgama trabaja con equipos internos — no los reemplaza. Aporta la especialización en el sector que un equipo generalista no tiene."}],
+      comboEs:"Amalgama + Harbiz + ROOK = Stack tecnológico completo para una cadena fitness",
+    },
+    {
+      id:"shark", emoji:"🦈", tag:"SEO & Digital Marketing",
+      name:"Shark Digital", tagline:"Fitness & wellness SEO/SEA — Vienna, 15 years",
+      taglineEs:"SEO/SEA especializado en fitness — Viena, 15 años",
+      taglineDe:"Fitness & Wellness SEO/SEA — Wien, 15 Jahre",
+      descEs:"Agencia de marketing digital con 15 años de experiencia en Viena, especializada en el sector fitness y wellness. SEO, SEM, redes sociales y captación de leads para operadores fitness.",
+      descEn:"Digital marketing agency with 15 years of experience in Vienna, specialised in the fitness and wellness sector. SEO, SEM, social media and lead generation for fitness operators.",
+      descDe:"Digitale Marketingagentur mit 15 Jahren Erfahrung in Wien, spezialisiert auf Fitness und Wellness.",
+      idealEs:["Gimnasios y estudios en DACH","Marcas fitness con presencia digital","Nuevas aperturas"],
+      idealEn:["Gyms & studios in DACH","Fitness brands with digital presence","New openings"],
+      idealDe:["Fitnessstudios in DACH","Fitness-Marken mit digitaler Präsenz","Neueröffnungen"],
+      pitchEs:"Marketing genérico no funciona en fitness. Shark habla el idioma del sector y tiene los casos de éxito para demostrarlo.",
+      pitchEn:"Generic marketing doesn't work in fitness. Shark speaks the sector's language and has the success cases to prove it.",
+      pitchDe:"Generisches Marketing funktioniert im Fitness nicht. Shark spricht die Sprache der Branche.",
+      products:[
+        {ico:"🔍",name:"Shark SEO Fitness",desc:"Posicionamiento orgánico especializado para gimnasios y centros fitness."},
+        {ico:"📣",name:"Shark Paid Media",desc:"Gestión de Google Ads y Meta Ads con CPL optimizado para fitness."},
+        {ico:"📊",name:"Shark Analytics",desc:"Reporting mensual de KPIs de negocio vinculados al marketing."},
+      ],
+      objEs:[{q:"'Ya tenemos agencia de marketing'",a:"Pregunta cuántos de sus clientes son gimnasios. Shark tiene 15 años de clientes solo en fitness — la diferencia en resultados es medible en semanas."}],
+      comboEs:"Shark Digital + Harbiz + Amalgama = Motor de captación y retención digital completo",
+    },
+    {
+      id:"lemin", emoji:"📈", tag:"Leadership & Culture",
+      name:"Lemin", tagline:"AI-powered leadership platform for fitness orgs",
+      taglineEs:"Plataforma de liderazgo IA para organizaciones fitness",
+      taglineDe:"KI-gestützte Führungsplattform für Fitness-Organisationen",
+      descEs:"Plataforma de desarrollo de liderazgo y cultura organizacional con IA. Feedback 360°, nudging conductual y analytics de cultura para cadenas y franquicias fitness.",
+      descEn:"AI-powered leadership development and organisational culture platform. 360° feedback, behavioural nudging and culture analytics for fitness chains and franchises.",
+      descDe:"KI-gestützte Führungsentwicklungs- und Organisationskulturplattform.",
+      idealEs:["Cadenas fitness con múltiples ubicaciones","Franquicias","Operadores con equipos grandes"],
+      idealEn:["Multi-location fitness chains","Franchises","Operators with large teams"],
+      idealDe:["Fitnessketten mit mehreren Standorten","Franchises","Betreiber mit großen Teams"],
+      pitchEs:"Los mejores operadores fitness toman decisiones con datos de personas. Lemin convierte la cultura en un activo medible y mejorable.",
+      pitchEn:"The best fitness operators make decisions with people data. Lemin turns culture into a measurable and improvable asset.",
+      pitchDe:"Die besten Fitness-Betreiber treffen Entscheidungen mit Personendaten.",
+      products:[
+        {ico:"🔄",name:"Lemin 360°",desc:"Feedback multidireccional entre equipos con análisis automático."},
+        {ico:"🧠",name:"Lemin Nudge",desc:"Motor de IA que sugiere micro-acciones para mejorar comportamientos."},
+        {ico:"📊",name:"Lemin Culture Board",desc:"Dashboard de cultura organizacional para directivos."},
+      ],
+      objEs:[{q:"'Eso es para empresas grandes, no para gimnasios'",a:"Las cadenas de 5+ ubicaciones tienen exactamente los mismos problemas que las corporaciones: rotación de personal, inconsistencia de servicio, managers sin datos. Lemin les da lo mismo que a las Fortune 500."}],
+      comboEs:"Lemin + Shark Digital + Harbiz = La cadena fitness más bien gestionada del mercado",
+    },
+  ],
+  services:[
+    {
+      id:"mironova", emoji:"🏛️", tag:"Interior Design",
+      name:"Mironova Interior Design", tagline:"Fitness & wellness interiors — Berlin since 2014",
+      taglineEs:"Interiores fitness y wellness — Berlín desde 2014",
+      taglineDe:"Fitness & Wellness-Innenarchitektur — Berlin seit 2014",
+      descEs:"Estudio de diseño de interiores con sede en Berlín especializado en espacios fitness, wellness y hospitalidad desde 2014. Concepto a construcción — transforma espacios en experiencias que venden.",
+      descEn:"Berlin-based interior design studio specialised in fitness, wellness and hospitality spaces since 2014. Concept to construction — transforms spaces into experiences that sell.",
+      descDe:"Berliner Innenarchitekturstudio spezialisiert auf Fitness-, Wellness- und Hospitality-Räume seit 2014.",
+      idealEs:["Nuevas aperturas premium","Renovaciones de alto nivel","Hoteles wellness","Desarrolladores inmobiliarios"],
+      idealEn:["Premium new openings","High-level renovations","Wellness hotels","Property developers"],
+      idealDe:["Premium-Neueröffnungen","Hochwertige Renovierungen","Wellness-Hotels","Immobilienentwickler"],
+      pitchEs:"El espacio vende antes que el equipamiento. Mironova crea espacios que enamoran desde la primera visita y se pagan solos en meses.",
+      pitchEn:"The space sells before the equipment. Mironova creates spaces that clients fall in love with from the first visit and pay for themselves in months.",
+      pitchDe:"Der Raum verkauft sich vor dem Equipment.",
+      products:[
+        {ico:"✏️",name:"Concept Design",desc:"Desarrollo del concepto espacial y la identidad del espacio."},
+        {ico:"📐",name:"Project Planning",desc:"Planimetría, selección de materiales y coordinación con constructores."},
+        {ico:"🏗️",name:"Full Execution",desc:"Gestión completa del proyecto desde concepto hasta llaves en mano."},
+        {ico:"🎨",name:"Brand Integration",desc:"Integración del branding y la identidad visual en el espacio físico."},
+      ],
+      objEs:[{q:"'Ya tenemos arquitecto'",a:"Mironova no es un arquitecto generalista — es un especialista que ha diseñado más de 80 espacios fitness en Europa. La diferencia es que entiende el negocio, no solo el diseño."}],
+      comboEs:"Mironova + Bodytone + Harbiz = Apertura de gimnasio premium de A a Z",
+    },
+    {
+      id:"fuco", emoji:"🦾", tag:"Service Robotics",
+      name:"FuCo Care Robotics", tagline:"Service robots for fitness, rehab & hospitality",
+      taglineEs:"Robots de servicio para fitness, rehab y hospitalidad",
+      taglineDe:"Serviceroboter für Fitness, Reha & Hospitality",
+      descEs:"Soluciones robóticas de servicio para el sector salud, fitness y hospitalidad. Robots autónomos de limpieza de suelos, recepción, orientación y transporte de servicios.",
+      descEn:"Service robotics solutions for the health, fitness and hospitality sector. Autonomous floor cleaning, reception, wayfinding and service transport robots.",
+      descDe:"Service-Robotik-Lösungen für Gesundheit, Fitness und Hospitality.",
+      idealEs:["Grandes gimnasios y spas","Hospitales y clínicas","Hoteles resort"],
+      idealEn:["Large gyms & spas","Hospitals & clinics","Resort hotels"],
+      idealDe:["Große Fitnessstudios & Spas","Krankenhäuser & Kliniken","Resort-Hotels"],
+      pitchEs:"La robótica de servicio en salud no es el futuro — es el presente. Los early adopters tienen la ventaja de posicionamiento y los costos más bajos de toda la curva.",
+      pitchEn:"Service robotics in health isn't the future — it's the present. Early adopters have the positioning advantage and the lowest costs on the entire curve.",
+      pitchDe:"Service-Robotik im Gesundheitswesen ist nicht die Zukunft — es ist die Gegenwart.",
+      products:[
+        {ico:"🧹",name:"FuCo Clean",desc:"Robot autónomo de limpieza de suelos para grandes superficies."},
+        {ico:"🤝",name:"FuCo Welcome",desc:"Robot de recepción y orientación con pantalla interactiva."},
+        {ico:"🚗",name:"FuCo Transport",desc:"Robot de transporte de equipamiento y materiales en instalaciones."},
+      ],
+      objEs:[{q:"'Los robots aún no están listos para entornos de salud'",a:"FuCo lleva 6 años operando en hospitales europeos. Los protocolos de seguridad son médicos, no de almacén. El argumento ya está superado."}],
+      comboEs:"FuCo Care + Mironova + Harbiz = La instalación fitness más tecnológica de tu ciudad",
+    },
+  ],
+};
 
-const TIMELINE = [
-  {day:"Día 1–3",icon:"📚",title:"Inmersión de Producto",desc:"Conoce el portfolio completo. Identifica tus 3 productos favoritos para comenzar."},
-  {day:"Día 4–7",icon:"🎯",title:"Elige tu Vertical",desc:"Decide en qué mercado quieres especializarte primero."},
-  {day:"Semana 2",icon:"📞",title:"Primeros Contactos",desc:"5 llamadas de exploración sin objetivo de venta. Solo escucha."},
-  {day:"Semana 3",icon:"📋",title:"Primera Propuesta",desc:"Prepara una propuesta combo para tu mejor prospecto."},
-  {day:"Mes 2",icon:"🏆",title:"Primer Cierre",desc:"Con el pipeline activo, el primer cierre llega. El momentum empieza aquí."},
-];
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+let lang = 'es';
+let curSection = 0;
+let curCat = 'hardware';
+let curRM = 0;
+const TOTAL = 6;
 
-const MANIFESTO_LINES = [
-  "Cada gimnasio que equipas mejor mejora la vida de sus miembros.",
-  "Cada software que implementas convierte datos en decisiones más inteligentes.",
-  "Cada solución que recomiendas construye tu reputación como experto del sector.",
-  "Tu éxito y el éxito de tus clientes son la misma cosa.",
-];
-
-// ── STATE ──
-let currentSection = 0;
-let currentCat = 'hardware';
-let currentRM = 0;
-
-// ── INIT ──
-function init(){
-  buildNavDots();
-  buildPartnerGrid('hardware');
-  buildStrategies();
-  buildRoadmap();
-  buildManifesto();
-  showSection(0);
-}
-
-function buildNavDots(){
-  const c = document.getElementById('nav-dots');
-  c.innerHTML = '';
-  SECTIONS.forEach((_,i)=>{
-    const d = document.createElement('div');
-    d.className = 'ndot' + (i===0?' active':'');
-    d.onclick = ()=>showSection(i);
-    c.appendChild(d);
-  });
-}
-
-function updateNavDots(){
-  document.querySelectorAll('.ndot').forEach((d,i)=>{
-    d.classList.toggle('active', i===currentSection);
-  });
-}
-
-function buildPartnerGrid(cat){
-  const g = document.getElementById('partner-grid');
-  g.innerHTML='';
-  PARTNERS[cat].forEach(p=>{
-    const d = document.createElement('div');
-    d.className = 'partner-card';
-    d.innerHTML = `<div class="p-emoji">${p.emoji}</div><div style="margin-bottom:6px;"><span class="badge" style="font-size:8px;background:rgba(218,195,155,.4);color:var(--dark);">${p.tag}</span></div><div class="p-name">${p.name}</div><div class="p-tag-line">${p.tagline}</div>`;
-    d.onclick = ()=>openModal(p);
-    g.appendChild(d);
-  });
-}
-
-function switchCat(cat, btn){
-  currentCat = cat;
-  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+/* ═══════════════════════════════════════════════
+   LANG
+═══════════════════════════════════════════════ */
+function setLang(l, btn) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  buildPartnerGrid(cat);
+  applyTranslations();
+  rebuildCurrentSection();
 }
 
-function buildStrategies(){
-  const c = document.getElementById('strat-list');
-  STRATEGIES.forEach((s,i)=>{
+function t(key) { return T[lang][key] || T.es[key] || key; }
+
+function applyTranslations() {
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = T[lang][key];
+    if (val && el.tagName !== 'INPUT') el.innerHTML = val;
+  });
+  document.getElementById('btn-prev').textContent = t('nav_prev');
+  document.getElementById('btn-next').textContent = t('nav_next');
+  document.getElementById('sec-name').textContent = t('sec_names')[curSection];
+}
+
+function rebuildCurrentSection() {
+  if (curSection === 1) buildTimeline();
+  if (curSection === 2) { buildCatBar(); buildGrid(curCat); }
+  if (curSection === 3) buildStrategies();
+  if (curSection === 4) { buildRMTabs(); renderRM(curRM); buildPrincs(); }
+  if (curSection === 5) buildManifesto();
+}
+
+/* ═══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function buildNavProgress() {
+  const c = document.getElementById('nav-progress');
+  c.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'np' + (i === curSection ? ' active' : '');
+    d.onclick = () => goTo(i);
+    c.appendChild(d);
+  }
+}
+
+function showSection(n) {
+  for (let i = 0; i < TOTAL; i++) {
+    const el = document.getElementById('s' + i);
+    if (el) el.style.display = 'none';
+  }
+  curSection = n;
+  const el = document.getElementById('s' + n);
+  if (!el) return;
+  el.style.display = 'block';
+  void el.offsetWidth;
+  el.querySelectorAll('.fade-up').forEach(e => { e.style.animation = 'none'; void e.offsetWidth; e.style.animation = ''; });
+  document.getElementById('btn-prev').disabled = n === 0;
+  document.getElementById('btn-next').disabled = n === TOTAL - 1;
+  document.getElementById('sec-num').textContent = String(n + 1).padStart(2, '0') + ' / 0' + TOTAL;
+  document.getElementById('sec-name').textContent = t('sec_names')[n];
+  buildNavProgress();
+  document.getElementById('scroll').scrollTo({ top: 0, behavior: 'smooth' });
+  // build on first show
+  if (n === 1) buildTimeline();
+  if (n === 2) { buildCatBar(); buildGrid(curCat); }
+  if (n === 3) buildStrategies();
+  if (n === 4) { buildRMTabs(); renderRM(0); buildPrincs(); }
+  if (n === 5) { buildManifesto(); setTimeout(revealManifesto, 400); }
+}
+
+function navigate(dir) {
+  const next = curSection + dir;
+  if (next < 0 || next >= TOTAL) return;
+  showSection(next);
+}
+
+function goTo(n) { showSection(n); }
+
+/* ═══════════════════════════════════════════════
+   S1: TIMELINE
+═══════════════════════════════════════════════ */
+function buildTimeline() {
+  const wrap = document.getElementById('tl-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  T[lang].tl.forEach(item => {
+    wrap.innerHTML += `
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">${item.y}</div>
+        <div class="tl-title">${item.t}</div>
+        <div class="tl-body">${item.b}</div>
+      </div>`;
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   S2: PARTNERS
+═══════════════════════════════════════════════ */
+function buildCatBar() {
+  const bar = document.getElementById('cat-bar');
+  if (!bar) return;
+  bar.innerHTML = '';
+  [
+    { key: 'hardware', icon: '🔧', tk: 'cat_hw', count: PARTNERS.hardware.length },
+    { key: 'software', icon: '💻', tk: 'cat_sw', count: PARTNERS.software.length },
+    { key: 'services', icon: '✨', tk: 'cat_sv', count: PARTNERS.services.length },
+  ].forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (c.key === curCat ? ' active' : '');
+    btn.innerHTML = `${c.icon} ${t(c.tk)} <span class="cat-count">(${c.count})</span>`;
+    btn.onclick = () => { curCat = c.key; buildCatBar(); buildGrid(c.key); };
+    bar.appendChild(btn);
+  });
+}
+
+function buildGrid(cat) {
+  const grid = document.getElementById('p-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  PARTNERS[cat].forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'p-card';
+    const tagline = lang === 'en' ? p.tagline : lang === 'de' ? p.taglineDe : p.taglineEs;
+    card.innerHTML = `
+      <div class="p-emoji">${p.emoji}</div>
+      <div class="p-tag-chip">${p.tag}</div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-tagline">${tagline}</div>
+      <div class="p-arrow">›</div>`;
+    card.onclick = () => openModal(p);
+    grid.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════ */
+function openModal(p) {
+  document.getElementById('m-emoji').textContent = p.emoji;
+  document.getElementById('m-name').textContent = p.name;
+  document.getElementById('m-tag').textContent = p.tag;
+
+  const desc  = lang === 'en' ? p.descEn  : lang === 'de' ? p.descDe  : p.descEs;
+  const ideal = lang === 'en' ? p.idealEn : lang === 'de' ? p.idealDe : p.idealEs;
+  const pitch = lang === 'en' ? p.pitchEn : lang === 'de' ? p.pitchDe : p.pitchEs;
+  const objs  = p.objEs || [];
+  const combo = lang === 'en' ? (p.comboEn || p.comboEs) : p.comboEs;
+
+  let html = '';
+
+  // Description
+  html += `<div class="modal-section">
+    <div class="modal-label">${t('modal_desc')}</div>
+    <div class="modal-desc">${desc}</div>
+  </div>`;
+
+  // Ideal clients
+  html += `<div class="modal-section">
+    <div class="modal-label">${t('modal_ideal')}</div>
+    <div class="chip-row">${ideal.map(i => `<span class="ideal-chip">${i}</span>`).join('')}</div>
+  </div>`;
+
+  // Products
+  if (p.products && p.products.length) {
+    html += `<div class="modal-section">
+      <div class="modal-label">${t('modal_prods')}</div>
+      <div class="prod-grid">
+        ${p.products.map(pr => `
+          <div class="prod-item">
+            <div class="prod-icon">${pr.ico}</div>
+            <div><div class="prod-name">${pr.name}</div><div class="prod-desc">${pr.desc}</div></div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Pitch
+  html += `<div class="modal-section">
+    <div class="modal-label">${t('modal_pitch')}</div>
+    <div class="pitch-box"><div class="pitch-quote">"${pitch}"</div></div>
+  </div>`;
+
+  // Objections
+  if (objs.length) {
+    html += `<div class="modal-section">
+      <div class="modal-label">${t('modal_obj')}</div>
+      ${objs.map(o => `
+        <div class="obj-box">
+          <div class="obj-q">${o.q}</div>
+          <div class="obj-a">${o.a}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  // Combo
+  if (combo) {
+    html += `<div class="modal-section">
+      <div class="modal-label">${t('modal_combo')}</div>
+      <div class="combo-box">
+        <div class="combo-label">💡 COMBO</div>
+        <div class="combo-text">${combo}</div>
+      </div>
+    </div>`;
+  }
+
+  html += `<div class="swipe-hint">${t('swipe_hint')}</div>`;
+
+  document.getElementById('m-body').innerHTML = html;
+  document.getElementById('modal-bg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalBg(e) {
+  if (e.target === document.getElementById('modal-bg')) closeModal();
+}
+
+/* ═══════════════════════════════════════════════
+   S3: STRATEGIES
+═══════════════════════════════════════════════ */
+function buildStrategies() {
+  const list = document.getElementById('strat-list');
+  if (!list) return;
+  list.innerHTML = '';
+  T[lang].strats.forEach((s, i) => {
     const div = document.createElement('div');
-    div.className='strat-card';
-    div.innerHTML=`
-      <div class="strat-header" onclick="toggleStrat(${i},this)">
+    div.className = 'strat-card';
+    div.innerHTML = `
+      <div class="strat-head" onclick="toggleStrat(${i})">
         <div class="strat-left">
-          <div class="strat-emoji">${s.icon}</div>
+          <div class="strat-ico">${s.ico}</div>
           <div>
-            <div class="strat-title">${s.title}</div>
-            <div class="strat-subtitle">${s.subtitle}</div>
+            <div class="strat-ttl">${s.ttl}</div>
+            <div class="strat-sub">${s.sub}</div>
           </div>
         </div>
         <div class="strat-right">
           <span class="badge">${s.badge}</span>
-          <span class="strat-arrow">›</span>
+          <span class="strat-arrow" id="sa-${i}">›</span>
         </div>
       </div>
-      <div class="strat-body" id="strat-body-${i}">
+      <div class="strat-body" id="sb-${i}">
         <div class="strat-desc">${s.desc}</div>
-        ${s.steps.map((st,j)=>`<div class="step-row"><div class="step-num">${j+1}</div><div class="step-text">${st}</div></div>`).join('')}
-        <div class="example-box">
-          <div class="example-label">EJEMPLO REAL</div>
-          <div class="example-text">${s.example}</div>
+        ${s.steps.map((st, j) => `<div class="step"><div class="step-n">${j+1}</div><div class="step-t">${st}</div></div>`).join('')}
+        <div class="ex-box">
+          <div class="ex-lbl">EJEMPLO</div>
+          <div class="ex-txt">${s.ex}</div>
         </div>
       </div>`;
-    c.appendChild(div);
+    list.appendChild(div);
   });
 }
 
-function toggleStrat(i, header){
-  const body = document.getElementById('strat-body-'+i);
-  const arrow = header.querySelector('.strat-arrow');
-  const open = body.style.display==='block';
-  body.style.display = open?'none':'block';
-  arrow.style.transform = open?'none':'rotate(90deg)';
+function toggleStrat(i) {
+  const body = document.getElementById('sb-' + i);
+  const arrow = document.getElementById('sa-' + i);
+  const open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? 'none' : 'rotate(90deg)';
 }
 
-function buildRoadmap(){
+/* ═══════════════════════════════════════════════
+   S4: ROADMAP
+═══════════════════════════════════════════════ */
+function buildRMTabs() {
   const tabs = document.getElementById('rm-tabs');
-  TIMELINE.forEach((t,i)=>{
+  if (!tabs) return;
+  tabs.innerHTML = '';
+  T[lang].rm.forEach((item, i) => {
     const btn = document.createElement('button');
-    btn.className='rm-tab'+(i===0?' active':'');
-    btn.textContent=t.day;
-    btn.onclick=()=>selectRM(i,btn);
+    btn.className = 'rm-tab' + (i === curRM ? ' active' : '');
+    btn.textContent = item.d;
+    btn.onclick = () => { curRM = i; buildRMTabs(); renderRM(i); };
     tabs.appendChild(btn);
   });
-  renderRM(0);
 }
 
-function selectRM(i,btn){
-  currentRM=i;
-  document.querySelectorAll('.rm-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  renderRM(i);
+function renderRM(i) {
+  const card = document.getElementById('rm-card');
+  if (!card) return;
+  const item = T[lang].rm[i];
+  card.innerHTML = `
+    <div class="rm-ico">${item.ico}</div>
+    <div class="rm-day">${item.d.toUpperCase()}</div>
+    <div class="rm-ttl">${item.t}</div>
+    <div class="rm-dsc">${item.b}</div>`;
 }
 
-function renderRM(i){
-  const t = TIMELINE[i];
-  document.getElementById('rm-card').innerHTML=`
-    <div class="rm-icon">${t.icon}</div>
-    <div class="rm-day">${t.day.toUpperCase()}</div>
-    <div class="rm-title">${t.title}</div>
-    <div class="rm-desc">${t.desc}</div>`;
-}
-
-function buildManifesto(){
-  const c = document.getElementById('manifesto-list');
-  MANIFESTO_LINES.forEach((l,i)=>{
-    const d=document.createElement('div');
-    d.className='manifesto-item';
-    d.id='ml-'+i;
-    d.innerHTML=`<div class="m-dot"></div><div class="m-text">${l}</div>`;
-    c.appendChild(d);
+function buildPrincs() {
+  const grid = document.getElementById('princ-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  T[lang].princs.forEach(p => {
+    grid.innerHTML += `
+      <div class="princ">
+        <div class="princ-ico">${p.ico}</div>
+        <div class="princ-ttl">${p.t}</div>
+        <div class="princ-dsc">${p.d}</div>
+      </div>`;
   });
 }
 
-function revealManifesto(){
-  MANIFESTO_LINES.forEach((_,i)=>{
-    setTimeout(()=>{
-      const el=document.getElementById('ml-'+i);
-      if(el){ el.classList.add('revealed'); el.style.animationDelay=i*0.15+'s'; }
-    }, i*150);
+/* ═══════════════════════════════════════════════
+   S5: MANIFESTO
+═══════════════════════════════════════════════ */
+function buildManifesto() {
+  const c = document.getElementById('m-lines');
+  if (!c) return;
+  c.innerHTML = '';
+  T[lang].m_lines.forEach((line, i) => {
+    c.innerHTML += `<div class="m-line" id="ml-${i}"><div class="m-dot"></div><div class="m-txt">${line}</div></div>`;
   });
 }
 
-// ── NAVIGATION ──
-function showSection(n){
-  const sections=['s0','s1','s2','s3','s4','s5'];
-  sections.forEach(id=>{
-    const el=document.getElementById(id);
-    el.style.display='none';
-    el.classList.remove('fade-up');
+function revealManifesto() {
+  T[lang].m_lines.forEach((_, i) => {
+    setTimeout(() => {
+      const el = document.getElementById('ml-' + i);
+      if (el) { el.classList.add('show'); el.style.animationDelay = '0s'; }
+    }, i * 180);
   });
-  currentSection=n;
-  const el=document.getElementById('s'+n);
-  el.style.display='block';
-  void el.offsetWidth;
-  el.classList.add('fade-up');
-
-  document.getElementById('btn-prev').disabled = n===0;
-  document.getElementById('btn-next').disabled = n===sections.length-1;
-  document.getElementById('section-label').textContent = SECTIONS[n];
-  updateNavDots();
-
-  // scroll to top
-  document.getElementById('scroll-area').scrollTo({top:0,behavior:'smooth'});
-
-  if(n===5) setTimeout(revealManifesto,400);
 }
 
-function navigate(dir){
-  const next = currentSection+dir;
-  if(next<0||next>5) return;
-  showSection(next);
-}
+/* ═══════════════════════════════════════════════
+   SWIPE
+═══════════════════════════════════════════════ */
+let tx = 0, ty = 0;
+const scrollEl = document.getElementById('scroll');
+scrollEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+scrollEl.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > Math.abs(dy) * 1.4 && Math.abs(dx) > 55) navigate(dx < 0 ? 1 : -1);
+}, { passive: true });
 
-// ── MODAL ──
-function openModal(p){
-  document.getElementById('modal-emoji').textContent=p.emoji;
-  document.getElementById('modal-name').textContent=p.name;
-  document.getElementById('modal-badge').innerHTML=`<span class="badge">${p.tag}</span>`;
-  document.getElementById('modal-desc').textContent=p.description;
-  document.getElementById('modal-chips').innerHTML=p.ideal.map(t=>`<span class="tag-chip">${t}</span>`).join('');
-  document.getElementById('modal-pitch').textContent='"'+p.pitch+'"';
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-
-function closeModal(e){
-  if(e.target===document.getElementById('modal-overlay')) closeModalDirect();
-}
-
-function closeModalDirect(){
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-// ── SWIPE SUPPORT ──
-let touchStartX=0, touchStartY=0;
-document.getElementById('scroll-area').addEventListener('touchstart',e=>{
-  touchStartX=e.touches[0].clientX;
-  touchStartY=e.touches[0].clientY;
-},{passive:true});
-document.getElementById('scroll-area').addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-touchStartX;
-  const dy=e.changedTouches[0].clientY-touchStartY;
-  if(Math.abs(dx)>Math.abs(dy)*1.5 && Math.abs(dx)>50){
-    navigate(dx<0?1:-1);
-  }
-},{passive:true});
-
-init();
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  buildNavProgress();
+  showSection(0);
+  applyTranslations();
+});
 </script>
 </body>
 </html>
